@@ -17,12 +17,12 @@ const GAMEMODES = {
     allowedChoices: 4,
     choicesToPick: [2, 3, 4],
   },
-  // bottom_to_top: {
-  //   name: "Pick all, ordered from bottom to top",
-  //   allowedChoices: 5,
-  //   choicesToPick: [8, 7, 6, 5, 4, 3, 2],
-  //   ordered: true,
-  // },
+  bottom_to_top: {
+    name: "Pick all, ordered from bottom to top",
+    allowedChoices: 5,
+    choicesToPick: [8, 7, 6, 5, 4, 3, 2],
+    ordered: true,
+  },
   top_to_bottom: {
     name: "Pick all, ordered from top to bottom",
     allowedChoices: 5,
