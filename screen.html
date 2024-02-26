@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/global.css" />
+    <link rel="stylesheet" href="styles/screen.css" />
+    <script
+      type="text/javascript"
+      src="https://www.airconsole.com/api/airconsole-1.8.0.js"
+    ></script>
+    <title>Poll Bonanza!</title>
+
+    <script src="scripts/shared/constants.js"></script>
+    <script src="scripts/shared/common.js"></script>
+
+    <script src="scripts/data.js"></script>
+    <script src="scripts/screen.js"></script>
+    <script src="scripts/screen-teams.js"></script>
+    <script src="scripts/ui/screen-ui.js"></script>
+  </head>
+  <body onload="init()">
+    <section id="lobby">
+      <h1>Poll Bonanza!</h1>
+      <button class="primary">Play</button>
+    </section>
+    <section id="questions">
+      <p class="players_ready">
+        Players ready:
+        <span id="numOfReadyPlayers">0</span>
+        /
+        <span class="numOfTotalPlayers">0</span>
+      </p>
+      <p class="players_reroll">
+        Players wanting to get new question:
+        <span id="numOfRerollPlayers">0</span>
+        /
+        <span class="numOfTotalPlayers">0</span>
+      </p>
+    </section>
+    <section id="pairing">
+      <p class="topic">The topic</p>
+      <p class="gamemode">The gamemode</p>
+      <table>
+        <tr class="header">
+          <th class="col_rank">#</th>
+          <th class="col_points">Points</th>
+          <th class="col_answer">Answer</th>
+        </tr>
+      </table>
+      <p class="waiting_text">Waiting for current player</p>
+      <p class="on_end">Press ready to continue</p>
+    </section>
+    <div id="scoreboard">
+      <div id="red_team">
+        <div class="players"></div>
+        <div class="score">Score: <span id="red_team_score">0</span></div>
+      </div>
+      <div id="blue_team">
+        <div class="players"></div>
+        <div class="score">Score: <span id="blue_team_score">0</span></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+button {
+  width: 80vw;
+  border-radius: 4px;
+}
+
+setion {
+  display: none;
+}
+
+#lobby button {
+  width: 300px;
+}
+
+.players_ready {
+  order: 30;
+  opacity: 0.5;
+  margin-top: 1em;
+  font-size: 1.1em;
+}
+
+.players_reroll {
+  order: 31;
+  font-size: 1.1em;
+  opacity: 0;
+}
+
+td.col_answer {
+  opacity: 0;
+}
+
+tr.show-table-value td.col_answer {
+  opacity: 1;
+}
+
+tr.show-table-value.blue-pick::after, tr.show-table-value.red-pick::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -0.5em;
+  transform: translateY(-50%);
+
+  background-color: var(--team-color-blue);
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+}
+
+tr.show-table-value.red-pick::after {
+  background-color: var(--team-color-red);
+}
+
+#pairing.show-end * {
+  opacity: 1 !important;
+}
+
+.on_end {
+  opacity: 0;
+}
+
+#scoreboard {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  min-height: 100px;
+  display: flex;
+  opacity: 0;
+}
+
+#scoreboard.show-scoreboard {
+  opacity: 1;
+}
+
+#red_team, #blue_team {
+  padding: 0.5em;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#red_team {
+  background-color: var(--team-color-blue);
+}
+
+#blue_team {
+  background-color: var(--team-color-red);
+}
+
+#scoreboard .score {
+  border-top: 1px solid white;
+  padding-top: 0.5em;
+}
+
+#scoreboard .players {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}

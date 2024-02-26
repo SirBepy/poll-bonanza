@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/global.css" />
+    <link rel="stylesheet" href="styles/controller.css" />
+    <script
+      type="text/javascript"
+      src="https://www.airconsole.com/api/airconsole-1.8.0.js"
+    ></script>
+    <title>Poll Bonanza!</title>
+
+    <script src="scripts/shared/constants.js"></script>
+    <script src="scripts/shared/common.js"></script>
+
+    <script src="scripts/ui/controller-ui.js"></script>
+    <script src="scripts/controller.js"></script>
+  </head>
+  <body onload="init()">
+    <section id="lobby">
+      <h1>Poll Bonanza!</h1>
+      <h2 class="hide-on-master">Waiting for leader</h2>
+      <button class="hide-on-non-master primary" onclick="startGame()">
+        Play
+      </button>
+    </section>
+    <section id="questions">
+      <button id="reroll" onclick="toggleRerollQuestion()"></button>
+      <div class="submit-section">
+        <button class="primary" id="submit-answers" onclick="onSubmit()">
+          Submit
+        </button>
+      </div>
+    </section>
+    <section id="waitForPlayers">
+      <h2>Wait for other players to finish</h2>
+    </section>
+    <section id="pairing">
+      <p class="waiting_text">
+        Waiting for current player
+      </p>
+    </section>
+    <section id="waitForNextRound">
+      <h2 class="hide-on-master">Waiting for leader</h2>
+      <button class="hide-on-non-master primary" onclick="nextRound()">
+        Next round
+      </button>
+    </section>
+    <!-- TODO: In future, have an option somewhere to always see what answers you chose -->
+  </body>
+</html>
