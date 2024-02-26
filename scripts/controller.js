@@ -9,26 +9,24 @@ function getIsMaster() {
 
 // Init functionality
 function onCustomDeviceStateChange(sender_id, data) {
-  if (data.activePlayer) {
-    updateIsActivePlayerClass(data.activePlayer);
-  }
-  if (data.screen == PAGES.questions) {
-    updateTeamClass(data.teams)
-
-    if (
-      gamemode == GAMEMODES[data.gamemodeKey] &&
-      currentQuestion?.question == data.currentQuestion?.question
-    )
-      return;
-    gamemode = GAMEMODES[data.gamemodeKey];
-    currentQuestion = data.currentQuestion;
-
-    choices = {};
-    resetReroll();
-    fillData();
-    updateSubmitButtonUI();
-  }
+  if (data.activePlayer) updateIsActivePlayerClass(data.activePlayer);
+  if (data.teams) updateTeamClass(data.teams);
   if (data.screen) displayScreen(data.screen);
+
+  if (
+    !data.gamemodeKey ||
+    !data.currentQuestion?.question ||
+    (gamemode == GAMEMODES[data.gamemodeKey] &&
+      currentQuestion?.question == data.currentQuestion.question)
+  )
+    return;
+  gamemode = GAMEMODES[data.gamemodeKey];
+  currentQuestion = data.currentQuestion;
+
+  choices = {};
+  resetReroll();
+  fillData();
+  updateSubmitButtonUI();
 }
 
 function onMessage(device_id, data) {

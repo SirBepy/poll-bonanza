@@ -16,6 +16,7 @@ function setNewScreen(newScreen) {
 }
 
 function updatePlayerCounter() {
+  if (currentScreen != PAGES.questions) return;
   const numOfReadyPlayers = Object.keys(allPlayersAnswers).length;
   const numOfTotalPlayers = airConsole.getControllerDeviceIds().length;
   updatePlayerCounterUI(numOfReadyPlayers, numOfTotalPlayers);
@@ -227,7 +228,6 @@ function onRoundFinished() {
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
 
-// TODO-FIX: Fix player joining mid pairing session
 // TODO-FIX: Weird bug where the 8th position items arent being valued at all
 
 // TODO-GENERAL: At the end of the round show what everyone else picked
