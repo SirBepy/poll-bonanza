@@ -3,10 +3,6 @@ button {
   border-radius: 4px;
 }
 
-setion {
-  display: none;
-}
-
 #lobby button {
   width: 300px;
 }
@@ -32,8 +28,9 @@ tr.show-table-value td.col_answer {
   opacity: 1;
 }
 
-tr.show-table-value.blue-pick::after, tr.show-table-value.red-pick::after {
-  content: '';
+tr.show-table-value.blue-pick::after,
+tr.show-table-value.red-pick::after {
+  content: "";
   position: absolute;
   top: 50%;
   right: -0.5em;
@@ -51,6 +48,11 @@ tr.show-table-value.red-pick::after {
 
 #pairing.show-end * {
   opacity: 1 !important;
+}
+
+#pairing.show-end .col_points {
+  display: table-cell;
+  width: 5em;
 }
 
 .on_end {
@@ -71,7 +73,8 @@ tr.show-table-value.red-pick::after {
   opacity: 1;
 }
 
-#red_team, #blue_team {
+#red_team,
+#blue_team {
   padding: 0.5em;
   display: flex;
   width: 100%;

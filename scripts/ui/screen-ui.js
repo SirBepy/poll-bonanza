@@ -55,8 +55,8 @@ function updateTableUI() {
 }
 
 function updateEndUI(isDone) {
-  const tableElement = document.getElementById("pairing");
-  tableElement.className = isDone ? "show-end" : "";
+  const pairingSectionElem = document.getElementById("pairing");
+  pairingSectionElem.className = isDone ? "show-end" : "";
 }
 
 function updateTeamUI() {

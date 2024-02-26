@@ -118,16 +118,15 @@ function onPairReceive(device_id, buttonId) {
     updatePointsUI();
   }
 
-  if (choicesToPickById.length == 0 || NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1) {
-    handleEnd();
+  if (
+    choicesToPickById.length == 0 ||
+    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1
+  ) {
+    airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
+    updateEndUI(true);
   } else {
     assignActivePlayer();
   }
-}
-
-function handleEnd() {
-  airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
-  updateEndUI(true);
 }
 
 function getCalculatedAnswers() {
@@ -164,7 +163,11 @@ function getCalculatedAnswers() {
   currentQuestion.answers.forEach((_, i) => {
     const buttonId = `answer-${i + 1}`;
     if (!calculatedInObj[buttonId]) {
-      orderedList.push({ points: "0", position: NUM_OF_CHOICES_PER_QUESTION, buttonId });
+      orderedList.push({
+        points: "0",
+        position: NUM_OF_CHOICES_PER_QUESTION,
+        buttonId,
+      });
     }
   });
 
