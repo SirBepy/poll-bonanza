@@ -34,7 +34,7 @@ function parseCSVData(csv, category) {
     .map((row) => {
       if (row.answers.length > numOfAnswers) {
         const newAnswers = shuffleArray(row.answers);
-        row.answers = newAnswers.slice(0, 8);
+        row.answers = newAnswers.slice(0, NUM_OF_CHOICES_PER_QUESTION);
       }
       return row;
     });

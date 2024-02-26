@@ -42,7 +42,7 @@ function addTextAndButtonsToSection(sectionId, btnIdPrefix, onBtnClick) {
     className: "gamemode",
   });
 
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 1; i <= NUM_OF_CHOICES_PER_QUESTION; i++) {
     const button = addNewElementToElement("button", container, {
       id: `${btnIdPrefix}-${i}`,
     });

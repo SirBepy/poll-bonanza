@@ -53,3 +53,5 @@ const POSITION_POINTS = {
   7: 2,
   8: 1,
 };
+
+const NUM_OF_CHOICES_PER_QUESTION = Object.keys(POSITION_POINTS).length
