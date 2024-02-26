@@ -218,11 +218,18 @@ function onRoundFinished() {
   assignActivePlayer();
 }
 
-// TODO: Add screen to chose what gamemodes you dont want
-// TODO: Add categories
-// TODO: Add screen to chose which category you want to see
-// TODO: Add screen to chose how many rounds you will play
-// TODO: Add screen to chose how many teams you want
-// TODO: Fix player joining mid pairing session
-// TODO: At the end of the round show what everyone else picked
-// TODO: Remove questions that were already used
+// TODO-SETTINGS: Add screen to chose what gamemodes you dont want
+// TODO-SETTINGS: Add categories
+// TODO-SETTINGS: Add screen to chose which category you want to see
+// TODO-SETTINGS: Add screen to chose how many rounds you will play
+// TODO-SETTINGS: Add screen to chose how many teams you want
+
+// TODO-GAMEMODE: Add guess_enemy_list gamemode
+// TODO-GAMEMODE: Add who_does_this_belong_to gamemode
+
+// TODO-FIX: Fix player joining mid pairing session
+// TODO-FIX: Weird bug where the 8th position items arent being valued at all
+
+// TODO-GENERAL: At the end of the round show what everyone else picked
+// TODO-GENERAL: Remove questions that were already used
+// TODO-GENERAL: Highlight the rows that need to be picked
