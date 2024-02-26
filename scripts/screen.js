@@ -90,8 +90,17 @@ function onPairReceive(device_id, buttonId) {
   numberOfTimesAPlayerWent[device_id] =
     (numberOfTimesAPlayerWent[device_id] ?? 0) + 1;
 
+  const index = choicesToPickById.findIndex((choice) => choice.id == buttonId);
+
   if (gamemode.ordered) {
-    if (choicesToPickById[0] != buttonId) return assignActivePlayer();
+    if (index == -1) return assignActivePlayer();
+    const firstMostFreePosition = gamemode.choicesToPick.find(
+      (gamemodePosition) =>
+        choicesToPickById.some(({ position }) => position == gamemodePosition)
+    );
+    const didPickFirstPossibleChoice =
+      choicesToPickById[index]?.position != firstMostFreePosition;
+    if (didPickFirstPossibleChoice) return assignActivePlayer();
   }
 
   updateTableRowToggledUI(device_id, buttonId);
@@ -101,7 +110,6 @@ function onPairReceive(device_id, buttonId) {
 
   unavailableAnswers.push(buttonId);
 
-  const index = choicesToPickById.indexOf(buttonId);
   if (index > -1) {
     choicesToPickById.splice(index, 1);
     const teamNames = Object.keys(teams);
@@ -110,10 +118,10 @@ function onPairReceive(device_id, buttonId) {
     updatePointsUI();
   }
 
-  if (choicesToPickById.length > 0) {
-    assignActivePlayer();
-  } else {
+  if (choicesToPickById.length == 0 || NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1) {
     handleEnd();
+  } else {
+    assignActivePlayer();
   }
 }
 
@@ -146,15 +154,12 @@ function getCalculatedAnswers() {
     }
 
     if (gamemode.choicesToPick.includes(row.position)) {
-      choicesToPickById.push(`table${row.buttonId}`);
+      choicesToPickById.push({
+        id: `table${row.buttonId}`,
+        position: row.position,
+      });
     }
   }
-
-  // TODO: Fix the bottom-top task
-  // gamemode.choicesToPick.forEach((choicePosition) => {
-  //   const rows = orderedList.filter((row) => row.position == choicePosition);
-  //   choicesToPickById.push(rows.map(row => `table${row.buttonId}`));
-  // });
 
   currentQuestion.answers.forEach((_, i) => {
     const buttonId = `answer-${i + 1}`;
