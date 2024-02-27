@@ -83,11 +83,11 @@ tr.show-table-value.red-pick::after {
 }
 
 #red_team {
-  background-color: var(--team-color-blue);
+  background-color: var(--team-color-red);
 }
 
 #blue_team {
-  background-color: var(--team-color-red);
+  background-color: var(--team-color-blue);
 }
 
 #scoreboard .score {
