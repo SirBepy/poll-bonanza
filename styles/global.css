@@ -8,6 +8,7 @@ html {
   --color-bg: #7293a0;
   --color-primary: #21d19f;
   --color-secondary: #45b69c;
+  --color-secondary-dark: #337b6a;
   --team-color-red: #a15d5d;
   --team-color-blue: #495496;
 
@@ -53,6 +54,7 @@ button {
   border-radius: 64px;
   padding: 10px;
   transition: 0.2s;
+  color: white;
 }
 
 button:active:not(:disabled) {
@@ -85,7 +87,7 @@ table th {
 }
 
 table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--color-secondary-dark);
 }
 
 table tr {
@@ -97,6 +99,17 @@ table th {
   padding-bottom: 12px;
   background-color: var(--color-secondary);
   color: white;
+}
+
+table .highlight {
+  outline: 1px solid white;
+  border: 1px solid white;
+}
+
+
+table .highlight.show-table-value {
+  outline: 1px solid yellow;
+  border: 1px solid yellow;
 }
 
 .col_rank {

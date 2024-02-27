@@ -22,6 +22,27 @@ function updatePlayerCounterUI(numOfReadyPlayers, numOfTotalPlayers) {
   );
 }
 
+const TD_CLASS_POSITION = "col_rank";
+const TD_CLASS_POINTS = "col_points";
+const TD_CLASS_ANSWER = "col_answer";
+
+function highlightTableUI(choices) {
+  const tableElement = document
+    .getElementById("pairing")
+    ?.getElementsByTagName("table")[0];
+
+  const rows = tableElement.getElementsByTagName("tr");
+  [...rows].forEach((rowElem) => {
+    const rowPosition =
+      rowElem.getElementsByClassName(TD_CLASS_POSITION)?.[0]?.innerText;
+    if (!rowPosition) return;
+
+    if (choices.includes(parseInt(rowPosition))) {
+      rowElem.classList.add("highlight");
+    }
+  });
+}
+
 function updateTableUI() {
   const tableElement = document
     .getElementById("pairing")
@@ -41,15 +62,15 @@ function updateTableUI() {
 
     addNewElementToElement("td", rowElem, {
       text: row.position,
-      className: "col_rank",
+      className: TD_CLASS_POSITION,
     });
     addNewElementToElement("td", rowElem, {
       text: row.points,
-      className: "col_points",
+      className: TD_CLASS_POINTS,
     });
     addNewElementToElement("td", rowElem, {
       text: currentQuestion.answers[answerIndex - 1],
-      className: "col_answer",
+      className: TD_CLASS_ANSWER,
     });
   });
 }
@@ -84,9 +105,9 @@ function updatePointsUI() {
 function updateTableRowToggledUI(device_id, buttonId) {
   const rowElem = document.getElementById(buttonId);
   if (teams.red.includes(device_id)) {
-    rowElem.className = "red-pick";
+    rowElem.classList.add("red-pick");
   } else if (teams.blue.includes(device_id)) {
-    rowElem.className = "blue-pick";
+    rowElem.classList.add("blue-pick");
   }
   rowElem.classList.add("show-table-value");
 }

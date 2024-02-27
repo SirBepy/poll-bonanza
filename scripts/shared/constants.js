@@ -23,12 +23,12 @@ const GAMEMODES = {
     choicesToPick: [8, 7, 6, 5, 4, 3, 2],
     ordered: true,
   },
-  top_to_bottom: {
-    name: "Pick all, ordered from top to bottom",
-    allowedChoices: 5,
-    choicesToPick: [1, 2, 3, 4, 5, 6, 7],
-    ordered: true,
-  },
+  // top_to_bottom: {
+  //   name: "Pick all, ordered from top to bottom",
+  //   allowedChoices: 5,
+  //   choicesToPick: [1, 2, 3, 4, 5, 6, 7],
+  //   ordered: true,
+  // },
   // guess_enemy_list: {
   //   name: "Guess a specific players top 3",
   //   choicesToPick: [1, 2, 3],

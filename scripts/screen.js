@@ -21,7 +21,7 @@ function updatePlayerCounter() {
   const numOfTotalPlayers = airConsole.getControllerDeviceIds().length;
   updatePlayerCounterUI(numOfReadyPlayers, numOfTotalPlayers);
 
-  if (numOfReadyPlayers == numOfTotalPlayers) onRoundFinished();
+  if (numOfReadyPlayers == numOfTotalPlayers) onQuestionsFinished();
 }
 
 function onMessage(device_id, data) {
@@ -95,10 +95,7 @@ function onPairReceive(device_id, buttonId) {
 
   if (gamemode.ordered) {
     if (index == -1) return assignActivePlayer();
-    const firstMostFreePosition = gamemode.choicesToPick.find(
-      (gamemodePosition) =>
-        choicesToPickById.some(({ position }) => position == gamemodePosition)
-    );
+    const firstMostFreePosition = getFirstOrderedFreePosition();
     const didPickFirstPossibleChoice =
       choicesToPickById[index]?.position != firstMostFreePosition;
     if (didPickFirstPossibleChoice) return assignActivePlayer();
@@ -128,6 +125,14 @@ function onPairReceive(device_id, buttonId) {
   } else {
     assignActivePlayer();
   }
+
+  highlightChoices()
+}
+
+function getFirstOrderedFreePosition() {
+  return gamemode.choicesToPick.find((gamemodePosition) =>
+    choicesToPickById.some(({ position }) => position == gamemodePosition)
+  );
 }
 
 function getCalculatedAnswers() {
@@ -214,10 +219,17 @@ function onNewRound(isReroll) {
   });
 }
 
-function onRoundFinished() {
+function highlightChoices() {
+  const { ordered, choicesToPick } = gamemode;
+  if (!ordered) return highlightTableUI(choicesToPick);
+  highlightTableUI([getFirstOrderedFreePosition()])
+}
+
+function onQuestionsFinished() {
   setNewScreen(PAGES.pairing);
   orderedAnswers = getCalculatedAnswers();
   updateTableUI();
+  highlightChoices()
   assignActivePlayer();
 }
 
@@ -232,4 +244,3 @@ function onRoundFinished() {
 
 // TODO-GENERAL: At the end of the round show what everyone else picked
 // TODO-GENERAL: Remove questions that were already used
-// TODO-GENERAL: Highlight the rows that need to be picked
