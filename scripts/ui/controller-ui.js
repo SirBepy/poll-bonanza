@@ -56,6 +56,6 @@ function updateTeamClass(teams) {
     bodyElem.classList.add("blue_team");
     bodyElem.classList.remove("red_team");
   } else {
-    throw new Error("Player wasnt in either team");
+    // throw new Error("Player wasnt in either team");
   }
 }
