@@ -152,13 +152,6 @@ function getCalculatedAnswers() {
     } else {
       row.position = currentPosition++;
     }
-
-    if (gamemode.choicesToPick.includes(row.position)) {
-      choicesToPickById.push({
-        id: `table${row.buttonId}`,
-        position: row.position,
-      });
-    }
   }
 
   currentQuestion.answers.forEach((_, i) => {
@@ -168,6 +161,15 @@ function getCalculatedAnswers() {
         points: "0",
         position: NUM_OF_CHOICES_PER_QUESTION,
         buttonId,
+      });
+    }
+  });
+
+  orderedList.forEach((row) => {
+    if (gamemode.choicesToPick.includes(row.position)) {
+      choicesToPickById.push({
+        id: `table${row.buttonId}`,
+        position: row.position,
       });
     }
   });
@@ -227,8 +229,6 @@ function onRoundFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
-
-// TODO-FIX: Weird bug where the 8th position items arent being valued at all
 
 // TODO-GENERAL: At the end of the round show what everyone else picked
 // TODO-GENERAL: Remove questions that were already used
