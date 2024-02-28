@@ -91,6 +91,11 @@ button#reroll.toggled::after {
   width: max-content;
 }
 
+button.switch-teams {
+  position: absolute;
+  bottom: 16px;
+}
+
 .red_team {
   background-color: var(--team-color-red);
 }
@@ -98,7 +103,6 @@ button#reroll.toggled::after {
 .blue_team  {
   background-color: var(--team-color-blue);
 }
-
 
 #pairing.isActivePlayer .waiting_text, #pairing:not(.isActivePlayer) > *:not(.waiting_text) {
   display: none;

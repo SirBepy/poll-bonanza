@@ -26,6 +26,7 @@ function updatePlayerCounter() {
 
 function onMessage(device_id, data) {
   if (data.newRound) onNewRound();
+  if (data.switchTeams) switchTeams(device_id);
   if (data.screen) setNewScreen(data.screen);
   if (data.answers) onAnswersReceived(device_id, data.answers);
   if (data.toggleReroll) toggleReroll(device_id, data.isRerolling);

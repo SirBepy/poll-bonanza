@@ -66,12 +66,12 @@ tr.show-table-value.red-pick::after {
   width: 200px;
   min-height: 100px;
   display: flex;
-  opacity: 0;
+  /* opacity: 0; */
 }
 
-#scoreboard.show-scoreboard {
+/* #scoreboard.show-scoreboard {
   opacity: 1;
-}
+} */
 
 #red_team,
 #blue_team {

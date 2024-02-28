@@ -36,10 +36,10 @@ function addPlayerToTeam(device_id) {
 function removePlayerFromTeam(device_id) {
   if (teams.red.includes(device_id)) {
     teams.red.splice(teams.red.indexOf(device_id), 1);
-    if (teams.red.length == 0) assignTeams();
+    if (currentScreen !== PAGES.lobby && teams.red.length == 0) assignTeams();
   } else if (teams.blue.includes(device_id)) {
     teams.blue.splice(teams.blue.indexOf(device_id), 1);
-    if (teams.blue.length == 0) assignTeams();
+    if (currentScreen !== PAGES.lobby && teams.blue.length == 0) assignTeams();
   }
 }
 
@@ -59,4 +59,17 @@ function assignActivePlayer(didPlayerLeave) {
   airConsole.message(activePlayerId, { unavailableAnswers });
   airConsole.setCustomDeviceStateProperty("activePlayer", activePlayerId);
   updateActivePlayerUI();
+}
+
+function switchTeams(device_id) {
+  let teamToAddTo;
+  if (teams.red.includes(device_id)) {
+    teamToAddTo = teams.blue;
+  } else if (teams.blue.includes(device_id)) {
+    teamToAddTo = teams.red;
+  }
+  removePlayerFromTeam(device_id);
+  teamToAddTo.push(device_id);
+  airConsole.setCustomDeviceStateProperty("teams", teams);
+  updateTeamUI();
 }

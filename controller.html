@@ -27,8 +27,11 @@
     <section id="lobby">
       <h1>Poll Bonanza!</h1>
       <h2 class="hide-on-master">Waiting for leader</h2>
-      <button class="hide-on-non-master primary" onclick="startGame()">
+      <button class="hide-on-non-master primary" id="start-button" onclick="startGame()">
         Play
+      </button>
+      <button class="switch-teams" onclick="switchTeams()">
+        Switch teams
       </button>
     </section>
     <section id="questions">
