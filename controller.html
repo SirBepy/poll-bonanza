@@ -20,6 +20,8 @@
     <script src="scripts/shared/constants.js"></script>
     <script src="scripts/shared/common.js"></script>
 
+    <script src="scripts/ui/controller-settings-ui.js"></script>
+    <script src="scripts/controller-settings.js"></script>
     <script src="scripts/ui/controller-ui.js"></script>
     <script src="scripts/controller.js"></script>
   </head>
@@ -30,13 +32,28 @@
       <button class="hide-on-non-master primary" id="start-button" onclick="startGame()">
         Play
       </button>
-      <button class="switch-teams" onclick="switchTeams()">
+      <button class="hide-on-non-master" onclick="goToSettings()">
+        Settings
+      </button>
+      <button class="stick-to-bottom" onclick="switchTeams()">
         Switch teams
       </button>
     </section>
+    <section id="allSettings">
+    </section>
+    <section id="settingsDetail">
+      <div class="stick-to-bottom-with-card-bg">
+        <button id="settingsDetail-save" class="primary" onclick="onSaveSettings()">
+          Save
+        </button>
+        <button onclick="onCancelSettings()">
+          Cancel
+        </button>
+      </div>
+    </section>
     <section id="questions">
       <button id="reroll" onclick="toggleRerollQuestion()"></button>
-      <div class="submit-section">
+      <div class="stick-to-bottom-with-card-bg">
         <button class="primary" id="submit-answers" onclick="onSubmit()">
           Submit
         </button>

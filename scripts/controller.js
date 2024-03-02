@@ -3,10 +3,6 @@ let isRerolling = false;
 let airConsole;
 let isPaused;
 
-function getIsMaster() {
-  return airConsole.getMasterControllerDeviceId() === airConsole.device_id;
-}
-
 // Init functionality
 function onCustomDeviceStateChange(sender_id, data) {
   if (data.activePlayer) updateIsActivePlayerClass(data.activePlayer);
@@ -14,7 +10,13 @@ function onCustomDeviceStateChange(sender_id, data) {
     updateTeamClass(data.teams);
     checkIfTeamsAreSafe(data.teams);
   }
-  if (data.screen) displayScreen(data.screen);
+  if (data.screen) {
+    if (
+      ![PAGES.allSettings, PAGES.settingsDetail].includes(currentScreen) ||
+      !getIsMaster()
+    )
+      displayScreen(data.screen);
+  }
 
   if (
     !data.gamemodeKey ||
@@ -46,15 +48,21 @@ function checkIfTeamsAreSafe(teams) {
 
 function onMessage(device_id, data) {
   if (data.unavailableAnswers) hideAnswersUI(data.unavailableAnswers);
+  if (data.gameSettings) gameSettings = data.gameSettings;
 }
 
-function init() {
+function initUI() {
   addTextAndButtonsToSection("questions", "answer", function () {
     toggleAnswer(this);
   });
   addTextAndButtonsToSection("pairing", "tableanswer", function () {
     onPair(this);
   });
+  fillAllSettingsUI();
+}
+
+function init() {
+  initUI();
   airConsole = new AirConsole({ orientation: "portrait" });
 
   airConsole.onActivePlayersChange = updateIsActivePlayerClass;

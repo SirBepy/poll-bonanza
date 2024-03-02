@@ -59,3 +59,65 @@ function updateTeamClass(teams) {
     // throw new Error("Player wasnt in either team");
   }
 }
+
+function fillAllSettingsUI() {
+  const allSettingsElem = document.getElementById("allSettings");
+  allSettingsElem.innerHTML = "";
+  addNewElementToElement("h1", allSettingsElem, { text: "Types of settings" });
+  Object.entries(SETTINGS).forEach(([key, setting]) => {
+    addNewElementToElement("button", allSettingsElem, {
+      text: setting.name,
+      onClick: () => openSettingDetail({ ...setting, key }),
+    });
+  });
+  addNewElementToElement("button", allSettingsElem, {
+    text: "Done",
+    className: "stick-to-bottom primary",
+    onClick: () => goHome(),
+  });
+}
+
+const settingBtnIdPrefix = "settingdetail-";
+function fillSettingDetailUI(setting, listOfToggled) {
+  const bottomBtnsElem = document.getElementsByClassName(
+    "stick-to-bottom-with-card-bg"
+  )?.[0];
+
+  const settingDetailElem = document.getElementById("settingsDetail");
+  settingDetailElem.innerHTML = "";
+  addNewElementToElement("h1", settingDetailElem, { text: setting.name });
+  settingDetailElem.appendChild(bottomBtnsElem);
+  setting.options.forEach((option) =>
+    addNewElementToElement("button", settingDetailElem, {
+      text: option.name,
+      className: listOfToggled?.includes(option.value) ? "toggled" : "",
+      id: `${settingBtnIdPrefix}${option.value}`,
+      onClick: () => onToggleSetting(option.value),
+    })
+  );
+}
+
+function updateSettingDetailUI() {
+  const settingDetailElem = document.getElementById("settingsDetail");
+  const toggledBtns = settingDetailElem.getElementsByClassName("toggled");
+  [...toggledBtns].forEach((btnElem) => {
+    const answerIndex = btnElem.id.replaceAll(settingBtnIdPrefix, "");
+    if (!temporarySettings.values[answerIndex]) {
+      btnElem.classList.remove("toggled");
+    }
+  });
+  temporarySettings.values.forEach((value) => {
+    document
+      .getElementById(`${settingBtnIdPrefix}${value}`)
+      ?.classList.add("toggled");
+  });
+
+  const saveBtnElem = document.getElementById("settingsDetail-save");
+  if (temporarySettings.values.length == 0) {
+    saveBtnElem.disabled = true;
+    saveBtnElem.innerText = "No option was selected";
+  } else {
+    saveBtnElem.disabled = false;
+    saveBtnElem.innerText = "Save";
+  }
+}

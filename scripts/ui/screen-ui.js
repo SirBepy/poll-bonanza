@@ -125,3 +125,28 @@ function updateActivePlayerUI() {
     (element) => (element.innerText = `Waiting for ${nick}`)
   );
 }
+
+function fillSettingsDataUI() {
+  const tableElement = document.getElementById("settings-table");
+  tableElement.innerHTML = "";
+  addRowToTable(tableElement, [
+    SETTINGS.teams.name,
+    gameSettings.teams?.length,
+  ]);
+  addRowToTable(tableElement, [
+    SETTINGS.numOfRounds.name,
+    gameSettings.numOfRounds,
+  ]);
+
+  const categoriesNum = gameSettings.categories?.length
+  addRowToTable(tableElement, [
+    SETTINGS.categories.name,
+    categoriesNum === Object.keys(GAMEMODES).length ? "All" : categoriesNum,
+  ]);
+
+  const gamemodesNum = gameSettings.gamemodes?.length
+  addRowToTable(tableElement, [
+    SETTINGS.gamemodes.name,
+    gamemodesNum === Object.keys(GAMEMODES).length ? "All" : gamemodesNum,
+  ]);;
+}

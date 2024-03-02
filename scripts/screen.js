@@ -3,6 +3,7 @@ let playersWishingToReroll = {};
 let activePlayerId;
 let unavailableAnswers = [];
 let choicesToPickById = [];
+let gameSettings = DEFAULT_SETTINGS;
 let points = { red: 0, blue: 0 };
 const totalNumberOfRounds = 3;
 let currentRound = 1;
@@ -31,6 +32,14 @@ function onMessage(device_id, data) {
   if (data.answers) onAnswersReceived(device_id, data.answers);
   if (data.toggleReroll) toggleReroll(device_id, data.isRerolling);
   if (data.pair) onPairReceive(device_id, data.pair);
+  if (data.gameSettings) onNewSettings(device_id, data.gameSettings);
+  if (data.getGameSettings) airConsole.message(device_id, { gameSettings });
+}
+
+function onNewSettings(device_id, settings) {
+  if (!getIsMaster(device_id)) return;
+  gameSettings = settings;
+  fillSettingsDataUI();
 }
 
 function toggleReroll(device_id, isWishingToReroll) {
@@ -72,6 +81,7 @@ function setupConsole() {
 
 function init() {
   addTextAndButtonsToSection("questions");
+  fillSettingsDataUI();
   setupConsole();
 }
 
@@ -127,7 +137,7 @@ function onPairReceive(device_id, buttonId) {
     assignActivePlayer();
   }
 
-  highlightChoices()
+  highlightChoices();
 }
 
 function getFirstOrderedFreePosition() {
@@ -215,6 +225,7 @@ function onNewRound(isReroll) {
   airConsole.setCustomDeviceState({
     screen: PAGES.questions,
     currentQuestion,
+    gameSettings,
     gamemodeKey,
     teams,
   });
@@ -223,22 +234,20 @@ function onNewRound(isReroll) {
 function highlightChoices() {
   const { ordered, choicesToPick } = gamemode;
   if (!ordered) return highlightTableUI(choicesToPick);
-  highlightTableUI([getFirstOrderedFreePosition()])
+  highlightTableUI([getFirstOrderedFreePosition()]);
 }
 
 function onQuestionsFinished() {
   setNewScreen(PAGES.pairing);
   orderedAnswers = getCalculatedAnswers();
   updateTableUI();
-  highlightChoices()
+  highlightChoices();
   assignActivePlayer();
 }
 
-// TODO-SETTINGS: Add screen to chose what gamemodes you dont want
 // TODO-SETTINGS: Add categories
 // TODO-SETTINGS: Add screen to chose which category you want to see
 // TODO-SETTINGS: Add screen to chose how many rounds you will play
-// TODO-SETTINGS: Add screen to chose how many teams you want
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode

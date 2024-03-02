@@ -2,6 +2,10 @@ let currentScreen = PAGES.lobby;
 let gamemode = {};
 let currentQuestion = {};
 
+function getIsMaster(device_id = airConsole.device_id) {
+  return airConsole.getMasterControllerDeviceId() === device_id;
+}
+
 const displayScreen = (screen) => {
   if (screen == currentScreen) return;
   if (!PAGES[screen]) throw new Error(`Got weird screen: ${screen}`);
@@ -20,14 +24,31 @@ const displayScreen = (screen) => {
   }
 };
 
+/**
+ *
+ * @param {string} elemType h1, h2, div, button...
+ * @param {Node} element Element you want to add to
+ * @param {Object} props
+ * @param {string} props.id
+ * @param {string} props.text
+ * @param {string} props.className
+ * @param {Function} props.onClick
+ * @returns
+ */
 function addNewElementToElement(elemType, element, props) {
-  const { id, text, className } = props ?? {};
+  const { id, text, className, onClick } = props ?? {};
   const newElement = document.createElement(elemType);
   element.appendChild(newElement);
   if (id) newElement.id = id;
   if (text) newElement.innerText = text;
   if (className) newElement.className = className;
+  if (onClick) newElement.onclick = onClick;
   return newElement;
+}
+
+function addRowToTable(table, values) {
+  const row = addNewElementToElement("tr", table);
+  values.forEach((value) => addNewElementToElement("td", row, { text: value }));
 }
 
 function addTextAndButtonsToSection(sectionId, btnIdPrefix, onBtnClick) {

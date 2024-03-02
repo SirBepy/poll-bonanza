@@ -4,6 +4,8 @@ const PAGES = {
   pairing: "pairing",
   waitForPlayers: "waitForPlayers",
   waitForNextRound: "waitForNextRound",
+  allSettings: "allSettings",
+  settingsDetail: "settingsDetail",
 };
 
 const GAMEMODES = {
@@ -54,4 +56,47 @@ const POSITION_POINTS = {
   8: 1,
 };
 
-const NUM_OF_CHOICES_PER_QUESTION = Object.keys(POSITION_POINTS).length
+const NUM_OF_CHOICES_PER_QUESTION = Object.keys(POSITION_POINTS).length;
+
+const SETTINGS = {
+  teams: {
+    name: "Teams",
+    hintText: "It's most fun to have atleast 4 players per team",
+    options: [
+      { name: "Red", value: "red" },
+      { name: "Blue", value: "blue" },
+      { name: "Green", value: "green" },
+      { name: "Yellow", value: "yellow" },
+    ],
+  },
+  numOfRounds: {
+    name: "Number of rounds",
+    options: [
+      { name: "3", value: "3" },
+      { name: "5", value: "5" },
+      { name: "8", value: "8" },
+      { name: "10", value: "10" },
+      { name: "Infinite", value: "9999" },
+    ],
+    parseToNum: true,
+    onlyOneIsActive: true,
+  },
+  categories: {
+    name: "Categories",
+    options: [],
+  },
+  gamemodes: {
+    name: "Gamemodes",
+    options: Object.entries(GAMEMODES).map(([gamemodeKey, gamemode]) => ({
+      name: gamemode.name,
+      value: gamemodeKey,
+    })),
+  },
+};
+
+const DEFAULT_SETTINGS = {
+  teams: ["red", "blue"],
+  numOfRounds: 3,
+  // categories: [],
+  gamemodes: Object.keys(GAMEMODES),
+};
