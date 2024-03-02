@@ -113,7 +113,14 @@ function updateSettingDetailUI() {
   });
 
   const saveBtnElem = document.getElementById("settingsDetail-save");
-  if (temporarySettings.values.length == 0) {
+  const { minNumOfOptionsChosen } = SETTINGS[temporarySettings?.key] ?? {};
+  if (
+    minNumOfOptionsChosen &&
+    temporarySettings.values.length < minNumOfOptionsChosen
+  ) {
+    saveBtnElem.disabled = true;
+    saveBtnElem.innerText = `Must select atleast ${minNumOfOptionsChosen} options`;
+  } else if (temporarySettings.values.length == 0) {
     saveBtnElem.disabled = true;
     saveBtnElem.innerText = "No option was selected";
   } else {

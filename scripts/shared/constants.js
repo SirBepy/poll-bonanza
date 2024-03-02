@@ -62,6 +62,7 @@ const SETTINGS = {
   teams: {
     name: "Teams",
     hintText: "It's most fun to have atleast 4 players per team",
+    minNumOfOptionsChosen: 2,
     options: [
       { name: "Red", value: "red" },
       { name: "Blue", value: "blue" },
