@@ -271,9 +271,7 @@ function onQuestionsFinished() {
   assignActivePlayer();
 }
 
-// TODO-SETTINGS: Add categories
-// TODO-SETTINGS: Add screen to chose which category you want to see
-// TODO-SETTINGS: Add screen to chose how many rounds you will play
+// TODO-SETTINGS: Make teams influence teams properly
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode

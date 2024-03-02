@@ -128,25 +128,25 @@ function updateActivePlayerUI() {
 
 function fillSettingsDataUI() {
   const tableElement = document.getElementById("settings-table");
+  const { teams, numOfRounds, categories, gamemodes } = SETTINGS;
   tableElement.innerHTML = "";
+  addRowToTable(tableElement, [teams.name, gameSettings.teams?.length]);
   addRowToTable(tableElement, [
-    SETTINGS.teams.name,
-    gameSettings.teams?.length,
-  ]);
-  addRowToTable(tableElement, [
-    SETTINGS.numOfRounds.name,
-    gameSettings.numOfRounds,
-  ]);
-
-  const categoriesNum = gameSettings.categories?.length
-  addRowToTable(tableElement, [
-    SETTINGS.categories.name,
-    categoriesNum === SETTINGS.categories.options.length ? "All" : categoriesNum,
+    numOfRounds.name,
+    numOfRounds.options.find(
+      ({ value }) => value == gameSettings.numOfRounds?.[0]
+    )?.name,
   ]);
 
-  const gamemodesNum = gameSettings.gamemodes?.length
+  const categoriesNum = gameSettings.categories?.length;
   addRowToTable(tableElement, [
-    SETTINGS.gamemodes.name,
-    gamemodesNum === SETTINGS.gamemodes.options.length ? "All" : gamemodesNum,
-  ]);;
+    categories.name,
+    categoriesNum === categories.options.length ? "All" : categoriesNum,
+  ]);
+
+  const gamemodesNum = gameSettings.gamemodes?.length;
+  addRowToTable(tableElement, [
+    gamemodes.name,
+    gamemodesNum === gamemodes.options.length ? "All" : gamemodesNum,
+  ]);
 }

@@ -100,3 +100,10 @@ tr.show-table-value.red-pick::after {
   flex-direction: column;
   gap: 0.5em;
 }
+
+#settings-table {
+  max-width: 500px;
+}
+#settings-table td:first-child {
+  width: 50%;
+}

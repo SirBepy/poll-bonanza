@@ -79,7 +79,6 @@ const SETTINGS = {
       { name: "10", value: "10" },
       { name: "Infinite", value: "9999" },
     ],
-    parseToNum: true,
     onlyOneIsActive: true,
   },
   categories: {
@@ -99,7 +98,7 @@ const FILES_TO_LOOK_FOR = ["Misc", "Movies and Shows", "Songs"];
 
 const DEFAULT_SETTINGS = {
   teams: ["red", "blue"],
-  numOfRounds: 3,
+  numOfRounds: ["3"],
   categories: FILES_TO_LOOK_FOR,
   gamemodes: Object.keys(GAMEMODES),
 };
