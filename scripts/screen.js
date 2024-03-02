@@ -3,7 +3,7 @@ let playersWishingToReroll = {};
 let activePlayerId;
 let unavailableAnswers = [];
 let choicesToPickById = [];
-let gameSettings = DEFAULT_SETTINGS;
+let gameSettings;
 let points = { red: 0, blue: 0 };
 const totalNumberOfRounds = 3;
 let currentRound = 1;
@@ -33,7 +33,18 @@ function onMessage(device_id, data) {
   if (data.toggleReroll) toggleReroll(device_id, data.isRerolling);
   if (data.pair) onPairReceive(device_id, data.pair);
   if (data.gameSettings) onNewSettings(device_id, data.gameSettings);
-  if (data.getGameSettings) airConsole.message(device_id, { gameSettings });
+  if (data.getGameSettings) sendBackGameSettings(device_id);
+}
+
+function sendBackGameSettings(device_id) {
+  const categories = Object.entries(ALL_QUESTIONS_BY_CATEGORY)
+    .filter(([_, questions]) => questions.length > 0)
+    .map(([category, questions]) => ({
+      name: category,
+      value: category,
+      hint: `${questions.length} questions`,
+    }));
+  airConsole.message(device_id, { categories, gameSettings });
 }
 
 function onNewSettings(device_id, settings) {
@@ -79,9 +90,20 @@ function setupConsole() {
   airConsole.onDisconnect = onDisconnect;
 }
 
-function init() {
-  addTextAndButtonsToSection("questions");
+async function setupGameSettings() {
+  await Promise.all(CSV_LOADING_PROGRESS);
+  gameSettings = DEFAULT_SETTINGS;
+  gameSettings.categories = Object.entries(ALL_QUESTIONS_BY_CATEGORY)
+    .filter(([_, questions]) => questions.length > 0)
+    .map(([category]) => category);
+  SETTINGS.categories.options = gameSettings.categories
+
   fillSettingsDataUI();
+}
+
+function init() {
+  setupGameSettings();
+  addTextAndButtonsToSection("questions");
   setupConsole();
 }
 
@@ -200,7 +222,12 @@ function getRandomGamemode() {
 }
 
 function getRandomQuestion() {
-  const availableQuestions = [...ALL_QUESTIONS_BY_CATEGORY.Bobo];
+  const availableQuestions = [];
+  Object.entries(ALL_QUESTIONS_BY_CATEGORY).forEach(([category, questions]) => {
+    if (gameSettings.categories.includes(category)) {
+      availableQuestions.push(...questions);
+    }
+  });
   return availableQuestions[
     Math.floor(Math.random() * availableQuestions.length)
   ];
@@ -215,10 +242,9 @@ function onNewRound(isReroll) {
   updatePlayerCounter();
 
   const gamemodeKey = getRandomGamemode();
-  const questionKey = getRandomQuestion();
-
   gamemode = GAMEMODES[gamemodeKey];
-  currentQuestion = ALL_QUESTIONS_BY_ID[questionKey];
+  currentQuestion = getRandomQuestion();
+  console.log("=>", currentQuestion);
   fillData();
 
   displayScreen(PAGES.questions);

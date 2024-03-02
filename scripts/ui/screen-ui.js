@@ -141,12 +141,12 @@ function fillSettingsDataUI() {
   const categoriesNum = gameSettings.categories?.length
   addRowToTable(tableElement, [
     SETTINGS.categories.name,
-    categoriesNum === Object.keys(GAMEMODES).length ? "All" : categoriesNum,
+    categoriesNum === SETTINGS.categories.options.length ? "All" : categoriesNum,
   ]);
 
   const gamemodesNum = gameSettings.gamemodes?.length
   addRowToTable(tableElement, [
     SETTINGS.gamemodes.name,
-    gamemodesNum === Object.keys(GAMEMODES).length ? "All" : gamemodesNum,
+    gamemodesNum === SETTINGS.gamemodes.options.length ? "All" : gamemodesNum,
   ]);;
 }

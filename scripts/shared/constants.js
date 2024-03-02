@@ -95,9 +95,11 @@ const SETTINGS = {
   },
 };
 
+const FILES_TO_LOOK_FOR = ["Misc", "Movies and Shows", "Songs"];
+
 const DEFAULT_SETTINGS = {
   teams: ["red", "blue"],
   numOfRounds: 3,
-  // categories: [],
+  categories: FILES_TO_LOOK_FOR,
   gamemodes: Object.keys(GAMEMODES),
 };

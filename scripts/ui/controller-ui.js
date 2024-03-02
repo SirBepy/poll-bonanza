@@ -87,14 +87,20 @@ function fillSettingDetailUI(setting, listOfToggled) {
   settingDetailElem.innerHTML = "";
   addNewElementToElement("h1", settingDetailElem, { text: setting.name });
   settingDetailElem.appendChild(bottomBtnsElem);
-  setting.options.forEach((option) =>
-    addNewElementToElement("button", settingDetailElem, {
+  setting.options.forEach((option) => {
+    const button = addNewElementToElement("button", settingDetailElem, {
       text: option.name,
       className: listOfToggled?.includes(option.value) ? "toggled" : "",
       id: `${settingBtnIdPrefix}${option.value}`,
       onClick: () => onToggleSetting(option.value),
-    })
-  );
+    });
+    if (option.hint) {
+      addNewElementToElement("span", button, {
+        text: option.hint,
+        className: "hint",
+      });
+    }
+  });
 }
 
 function updateSettingDetailUI() {

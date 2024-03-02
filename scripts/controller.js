@@ -49,6 +49,7 @@ function checkIfTeamsAreSafe(teams) {
 function onMessage(device_id, data) {
   if (data.unavailableAnswers) hideAnswersUI(data.unavailableAnswers);
   if (data.gameSettings) gameSettings = data.gameSettings;
+  if (data.categories) SETTINGS.categories.options = data.categories;
 }
 
 function initUI() {
