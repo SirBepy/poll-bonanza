@@ -13,7 +13,6 @@ function goToSettings() {
 function openSettingDetail(setting) {
   temporarySettings.key = setting.key;
   temporarySettings.values = [...(gameSettings?.[setting.key] ?? [])];
-  console.log('=>', temporarySettings)
   fillSettingDetailUI(setting);
   updateSettingDetailUI();
   displayScreen(PAGES.settingsDetail);

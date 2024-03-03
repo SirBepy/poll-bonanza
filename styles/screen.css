@@ -28,15 +28,17 @@ tr.show-table-value td.col_answer {
   opacity: 1;
 }
 
+tr.show-table-value.red-pick::after,
 tr.show-table-value.blue-pick::after,
-tr.show-table-value.red-pick::after {
+tr.show-table-value.green-pick::after,
+tr.show-table-value.yellow-pick::after {
   content: "";
   position: absolute;
   top: 50%;
   right: -0.5em;
   transform: translateY(-50%);
 
-  background-color: var(--team-color-blue);
+  background-color: white;
   width: 1em;
   height: 1em;
   border-radius: 100%;
@@ -44,6 +46,18 @@ tr.show-table-value.red-pick::after {
 
 tr.show-table-value.red-pick::after {
   background-color: var(--team-color-red);
+}
+
+tr.show-table-value.blue-pick::after {
+  background-color: var(--team-color-blue);
+}
+
+tr.show-table-value.green-pick::after {
+  background-color: var(--team-color-green);
+}
+
+tr.show-table-value.yellow-pick::after {
+  background-color: var(--team-color-yellow);
 }
 
 #pairing.show-end * {
@@ -63,31 +77,16 @@ tr.show-table-value.red-pick::after {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 200px;
   min-height: 100px;
   display: flex;
-  /* opacity: 0; */
 }
 
-/* #scoreboard.show-scoreboard {
-  opacity: 1;
-} */
-
-#red_team,
-#blue_team {
+#scoreboard > div {
   padding: 0.5em;
   display: flex;
-  width: 100%;
+  min-width: 100px;
   flex-direction: column;
   justify-content: space-between;
-}
-
-#red_team {
-  background-color: var(--team-color-red);
-}
-
-#blue_team {
-  background-color: var(--team-color-blue);
 }
 
 #scoreboard .score {

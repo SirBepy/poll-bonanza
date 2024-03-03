@@ -9,6 +9,7 @@ function onCustomDeviceStateChange(sender_id, data) {
   if (data.teams) {
     updateTeamClass(data.teams);
     checkIfTeamsAreSafe(data.teams);
+    disableUnusedTeams(data.teams);
   }
   if (data.screen) {
     if (
@@ -35,14 +36,14 @@ function onCustomDeviceStateChange(sender_id, data) {
 }
 
 function checkIfTeamsAreSafe(teams) {
-  const noTeamsAreEmpty = teams.red.length > 0 && teams.blue.length > 0;
+  const oneTeamIsEmpty = Object.values(teams).some((team) => team.length == 0);
   const startBtnElem = document.getElementById("start-button");
-  if (noTeamsAreEmpty) {
-    startBtnElem.disabled = false;
-    startBtnElem.innerText = "Play";
-  } else {
+  if (oneTeamIsEmpty) {
     startBtnElem.disabled = true;
     startBtnElem.innerText = "All teams need atleast 1 player";
+  } else {
+    startBtnElem.disabled = false;
+    startBtnElem.innerText = "Play";
   }
 }
 
@@ -60,6 +61,7 @@ function initUI() {
     onPair(this);
   });
   fillAllSettingsUI();
+  initTeamsTogglerUI();
 }
 
 function init() {
@@ -137,6 +139,6 @@ function nextRound() {
   sendScreenEvent({ newRound: true });
 }
 
-function switchTeams() {
-  sendScreenEvent({ switchTeams: true });
+function switchTeams(teamName) {
+  sendScreenEvent({ switchTeams: teamName });
 }

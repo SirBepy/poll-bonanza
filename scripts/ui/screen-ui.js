@@ -80,35 +80,61 @@ function updateEndUI(isDone) {
   pairingSectionElem.className = isDone ? "show-end" : "";
 }
 
+const TEAM_ELEM_ID_PREFIX = "team_";
+
+function initTeamUI() {
+  const scoreboard = document.getElementById("scoreboard");
+  SETTINGS.teams.options.forEach((option) => {
+    const teamColor = option.value;
+
+    const teamElem = addNewElementToElement("div", scoreboard, {
+      id: `${TEAM_ELEM_ID_PREFIX}${teamColor}`,
+      className: "team_container",
+    });
+    teamElem.style.backgroundColor = `var(--team-color-${teamColor})`;
+    addNewElementToElement("div", teamElem, { className: "players" });
+    const scoreElem = addNewElementToElement("div", teamElem, {
+      className: "score",
+      text: "Score:",
+    });
+    addNewElementToElement("span", scoreElem);
+  });
+}
+
 function updateTeamUI() {
-  const redPlayersElem = document
-    .getElementById("red_team")
-    .getElementsByClassName("players")[0];
-  const bluePlayersElem = document
-    .getElementById("blue_team")
-    .getElementsByClassName("players")[0];
-
-  redPlayersElem.innerHTML = teams.red
-    .map((playerId) => `<span>${airConsole.getNickname(playerId)}</span>`)
-    .join("");
-
-  bluePlayersElem.innerHTML = teams.blue
-    .map((playerId) => `<span>${airConsole.getNickname(playerId)}</span>`)
-    .join("");
+  const teamContainers = document
+    .getElementById("scoreboard")
+    .getElementsByClassName("team_container");
+  [...teamContainers].forEach((teamElem) => {
+    const teamColor = teamElem.id.replaceAll(TEAM_ELEM_ID_PREFIX, "");
+    if (!teams[teamColor]) {
+      teamElem.style.display = "none";
+      return;
+    }
+    teamElem.style.display = "flex";
+    teamElem.getElementsByClassName("players")[0].innerHTML = teams[teamColor]
+      .map((playerId) => `<span>${airConsole.getNickname(playerId)}</span>`)
+      .join("");
+  });
 }
 
 function updatePointsUI() {
-  document.getElementById("red_team_score").innerText = "" + points.red;
-  document.getElementById("blue_team_score").innerText = "" + points.blue;
+  Object.keys(teams).forEach((teamColor) => {
+    const pointsElem = document
+      .getElementById(`${TEAM_ELEM_ID_PREFIX}${teamColor}`)
+      ?.getElementsByClassName("score")?.[0]
+      ?.getElementsByTagName("span")?.[0];
+    pointsElem.innerText = "" + (points[teamColor] ?? 0);
+  });
 }
 
 function updateTableRowToggledUI(device_id, buttonId) {
   const rowElem = document.getElementById(buttonId);
-  if (teams.red.includes(device_id)) {
-    rowElem.classList.add("red-pick");
-  } else if (teams.blue.includes(device_id)) {
-    rowElem.classList.add("blue-pick");
-  }
+  Object.entries(teams).forEach(([teamName, team]) => {
+    if (team.includes(device_id)) {
+      rowElem.classList.add(`${teamName}-pick`);
+    }
+  });
   rowElem.classList.add("show-table-value");
 }
 

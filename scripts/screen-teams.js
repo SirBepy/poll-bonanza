@@ -6,41 +6,41 @@ const teams = {
 };
 
 function assignTeams() {
+  const teamNames = Object.keys(teams);
+  const numOfTeams = teamNames.length;
+
   const controllerDeviceIds = airConsole.getControllerDeviceIds();
-  const numPlayersPerTeam = Math.floor(controllerDeviceIds.length / 2);
+  const numPlayersPerTeam = controllerDeviceIds.length / numOfTeams;
 
   controllerDeviceIds.sort(() => Math.random() - 0.5);
 
-  teams.red = controllerDeviceIds
-    .slice(0, numPlayersPerTeam)
-    .sort(
-      (a, b) =>
-        (numberOfTimesAPlayerWent[a] ?? 0) - (numberOfTimesAPlayerWent[b] ?? 0)
-    );
-  teams.blue = controllerDeviceIds
-    .slice(numPlayersPerTeam)
-    .sort(
-      (a, b) =>
-        (numberOfTimesAPlayerWent[a] ?? 0) - (numberOfTimesAPlayerWent[b] ?? 0)
-    );
+  teamNames.forEach((teamName, i) => {
+    teams[teamName] = controllerDeviceIds
+      .slice(i * numPlayersPerTeam, (i + 1) * numPlayersPerTeam)
+      .sort(
+        (a, b) =>
+          (numberOfTimesAPlayerWent[a] ?? 0) -
+          (numberOfTimesAPlayerWent[b] ?? 0)
+      );
+  });
 }
 
 function addPlayerToTeam(device_id) {
-  if (teams.red.length <= teams.blue.length) {
-    teams.red.push(device_id);
-  } else if (teams.red.length > teams.blue.length) {
-    teams.blue.push(device_id);
-  }
+  let smallestTeam;
+
+  Object.values(teams).forEach((team) => {
+    if (!smallestTeam || team.length < smallestTeam.length) smallestTeam = team;
+  });
+  smallestTeam.push(device_id);
 }
 
 function removePlayerFromTeam(device_id) {
-  if (teams.red.includes(device_id)) {
-    teams.red.splice(teams.red.indexOf(device_id), 1);
-    if (currentScreen !== PAGES.lobby && teams.red.length == 0) assignTeams();
-  } else if (teams.blue.includes(device_id)) {
-    teams.blue.splice(teams.blue.indexOf(device_id), 1);
-    if (currentScreen !== PAGES.lobby && teams.blue.length == 0) assignTeams();
-  }
+  Object.values(teams).forEach((team) => {
+    if (team.includes(device_id)) {
+      team.splice(team.indexOf(device_id), 1);
+      if (currentScreen !== PAGES.lobby && team.length == 0) assignTeams();
+    }
+  });
 }
 
 function assignActivePlayer(didPlayerLeave) {
@@ -61,15 +61,45 @@ function assignActivePlayer(didPlayerLeave) {
   updateActivePlayerUI();
 }
 
-function switchTeams(device_id) {
-  let teamToAddTo;
-  if (teams.red.includes(device_id)) {
-    teamToAddTo = teams.blue;
-  } else if (teams.blue.includes(device_id)) {
-    teamToAddTo = teams.red;
-  }
+function switchTeams(device_id, teamName) {
+  if (!teams[teamName]) return;
   removePlayerFromTeam(device_id);
-  teamToAddTo.push(device_id);
+  teams[teamName].push(device_id);
   airConsole.setCustomDeviceStateProperty("teams", teams);
   updateTeamUI();
+}
+
+function deleteNoLongerUsedTeams() {
+  let changeHappened = false;
+
+  Object.keys(teams).forEach((teamName) => {
+    if (!gameSettings.teams.includes(teamName)) {
+      delete teams[teamName];
+      changeHappened = true;
+    }
+  });
+  return changeHappened;
+}
+
+function addNewTeams() {
+  let changeHappened = false;
+  const currentTeamNames = Object.keys(teams);
+
+  gameSettings.teams.forEach((teamName) => {
+    if (!currentTeamNames.includes(teamName)) {
+      teams[teamName] = [];
+      changeHappened = true;
+    }
+  });
+  return changeHappened;
+}
+
+function updateTeamsFromSettings() {
+  const deletedATeam = deleteNoLongerUsedTeams();
+  const newTeamWasAdded = addNewTeams();
+  if (deletedATeam || newTeamWasAdded) {
+    assignTeams();
+    updateTeamUI();
+    airConsole.setCustomDeviceStateProperty("teams", teams);
+  }
 }

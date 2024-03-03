@@ -27,7 +27,7 @@ function updatePlayerCounter() {
 
 function onMessage(device_id, data) {
   if (data.newRound) onNewRound();
-  if (data.switchTeams) switchTeams(device_id);
+  if (data.switchTeams) switchTeams(device_id, data.switchTeams);
   if (data.screen) setNewScreen(data.screen);
   if (data.answers) onAnswersReceived(device_id, data.answers);
   if (data.toggleReroll) toggleReroll(device_id, data.isRerolling);
@@ -50,6 +50,7 @@ function sendBackGameSettings(device_id) {
 function onNewSettings(device_id, settings) {
   if (!getIsMaster(device_id)) return;
   gameSettings = settings;
+  updateTeamsFromSettings();
   fillSettingsDataUI();
 }
 
@@ -96,12 +97,13 @@ async function setupGameSettings() {
   gameSettings.categories = Object.entries(ALL_QUESTIONS_BY_CATEGORY)
     .filter(([_, questions]) => questions.length > 0)
     .map(([category]) => category);
-  SETTINGS.categories.options = gameSettings.categories
+  SETTINGS.categories.options = gameSettings.categories;
 
   fillSettingsDataUI();
 }
 
 function init() {
+  initTeamUI();
   setupGameSettings();
   addTextAndButtonsToSection("questions");
   setupConsole();
@@ -118,7 +120,7 @@ function onAnswersReceived(device_id, answers) {
 function onPairReceive(device_id, buttonId) {
   if (device_id != activePlayerId)
     throw new Error("Somehow wrong id tried pairing");
-  if (!teams.red.includes(device_id) && !teams.blue.includes(device_id))
+  if (!Object.values(teams).some((team) => team.includes(device_id)))
     throw new Error("Player doesnt have team when pairing");
 
   numberOfTimesAPlayerWent[device_id] =
@@ -244,7 +246,6 @@ function onNewRound(isReroll) {
   const gamemodeKey = getRandomGamemode();
   gamemode = GAMEMODES[gamemodeKey];
   currentQuestion = getRandomQuestion();
-  console.log("=>", currentQuestion);
   fillData();
 
   displayScreen(PAGES.questions);
@@ -271,7 +272,8 @@ function onQuestionsFinished() {
   assignActivePlayer();
 }
 
-// TODO-SETTINGS: Make teams influence teams properly
+// TODO-SETTINGS: Make settings persist
+// TODO-SETTINGS: Make settings influence numOfRounds properly
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode

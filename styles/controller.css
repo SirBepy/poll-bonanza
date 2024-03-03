@@ -83,7 +83,7 @@ button#reroll {
 }
 
 button#reroll::before {
-  content: "Reroll";
+  content: "Reroll question";
 }
 
 button#reroll.toggled::before {
@@ -102,12 +102,20 @@ button.stick-to-bottom {
   bottom: 16px;
 }
 
-.red_team {
+.team_red {
   background-color: var(--team-color-red);
 }
 
-.blue_team {
+.team_blue {
   background-color: var(--team-color-blue);
+}
+
+.team_green {
+  background-color: var(--team-color-green);
+}
+
+.team_yellow {
+  background-color: var(--team-color-yellow);
 }
 
 #pairing.isActivePlayer .waiting_text,
@@ -137,4 +145,26 @@ span.hint {
   bottom: -1.5em;
   transform: translateX(-50%);
   opacity: 0.5;
+}
+
+#teams-toggler {
+  display: flex;
+  gap: 0.5em;
+  max-width: 100%;
+}
+
+#teams-toggler button {
+  border-radius: 8px;
+  flex: 1;
+}
+
+#teams-toggler button:disabled {
+  display: none;
+}
+
+.team_red #team-toggle-button-red,
+.team_blue #team-toggle-button-blue,
+.team_green #team-toggle-button-green,
+.team_yellow #team-toggle-button-yellow {
+  background-color: var(--color-primary);
 }

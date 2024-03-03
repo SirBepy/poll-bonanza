@@ -47,17 +47,15 @@ function hideAnswersUI(unavailableAnswers) {
 }
 
 function updateTeamClass(teams) {
-  const { red, blue } = teams;
   const bodyElem = document.getElementsByTagName("body")[0];
-  if (red.includes(airConsole.device_id)) {
-    bodyElem.classList.add("red_team");
-    bodyElem.classList.remove("blue_team");
-  } else if (blue.includes(airConsole.device_id)) {
-    bodyElem.classList.add("blue_team");
-    bodyElem.classList.remove("red_team");
-  } else {
-    // throw new Error("Player wasnt in either team");
-  }
+  SETTINGS.teams.options.forEach(({ value: teamName }) => {
+    const team = teams[teamName] ?? [];
+    if (team.includes(airConsole.device_id)) {
+      bodyElem.classList.add(`team_${teamName}`);
+    } else {
+      bodyElem.classList.remove(`team_${teamName}`);
+    }
+  });
 }
 
 function fillAllSettingsUI() {
@@ -133,4 +131,26 @@ function updateSettingDetailUI() {
     saveBtnElem.disabled = false;
     saveBtnElem.innerText = "Save";
   }
+}
+
+const TEAM_TOGGLE_BTN_ID_PREFIX = "team-toggle-button-";
+function initTeamsTogglerUI() {
+  const teamsTogglerElem = document.getElementById("teams-toggler");
+  SETTINGS.teams.options.forEach((color) => {
+    addNewElementToElement("button", teamsTogglerElem, {
+      id: `${TEAM_TOGGLE_BTN_ID_PREFIX}${color.value}`,
+      onClick: () => switchTeams(color.value),
+      text: color.name,
+    });
+  });
+}
+
+function disableUnusedTeams(teams) {
+  SETTINGS.teams.options.forEach((color) => {
+    const btnElem = document.getElementById(
+      `${TEAM_TOGGLE_BTN_ID_PREFIX}${color.value}`
+    );
+
+    btnElem.disabled = !teams[color.value];
+  });
 }
