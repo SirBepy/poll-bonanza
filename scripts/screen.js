@@ -218,7 +218,9 @@ function getCalculatedAnswers() {
 }
 
 function getRandomGamemode() {
-  const keys = Object.keys(GAMEMODES);
+  const keys = Object.keys(GAMEMODES).filter((gamemode) =>
+    gameSettings.gamemodes.some((option) => option == gamemode)
+  );
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
   return randomKey;
 }
