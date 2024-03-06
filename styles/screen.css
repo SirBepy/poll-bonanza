@@ -103,6 +103,84 @@ tr.show-table-value.yellow-pick::after {
 #settings-table {
   max-width: 500px;
 }
+
 #settings-table td:first-child {
   width: 50%;
+}
+
+.round_indicator {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  font-size: 1em;
+  opacity: 0.5;
+}
+
+/* Podium Styling */
+.ranks-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: flex-end;
+}
+
+.ranks-wrapper > div:not(.rankpodium) {
+  display: none;
+}
+
+.rankpodium {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 4px solid white;
+  padding-top: 0.5em;
+  border-radius: 4px 4px 0 0;
+}
+
+.rankpodium .team_name {
+  text-transform: capitalize;
+  position: absolute;
+  left: 50%;
+  top: -1.5em;
+  transform: translateX(-50%);
+}
+
+.rankpodium .team_points {
+  opacity: 0.2;
+  font-size: 1em;
+}
+
+.rankpodium-3 {
+  order: 3;
+}
+
+.rankpodium-3::after {
+  content: "3";
+  font-size: 2.2em;
+  opacity: 0.5;
+}
+
+.rankpodium-2 {
+  order: 1;
+  height: 150px;
+}
+
+.rankpodium-2::after {
+  content: "2";
+  font-size: 2.5em;
+  opacity: 0.7;
+}
+
+.rankpodium-1 {
+  order: 2;
+  height: 200px;
+}
+
+.rankpodium-1::after {
+  content: "1";
+  font-size: 3em;
+  opacity: 1;
 }

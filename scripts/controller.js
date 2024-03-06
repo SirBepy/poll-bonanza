@@ -142,3 +142,7 @@ function nextRound() {
 function switchTeams(teamName) {
   sendScreenEvent({ switchTeams: teamName });
 }
+
+function goBackHome() {
+  sendScreenEvent({ goBackHome: true })
+}

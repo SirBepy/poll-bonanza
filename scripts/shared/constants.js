@@ -6,8 +6,10 @@ const PAGES = {
   waitForNextRound: "waitForNextRound",
   allSettings: "allSettings",
   settingsDetail: "settingsDetail",
+  endOfGame: "endOfGame",
 };
 
+// TODO: In the future, just like for faking-it, a player should be able to chose the next gamemode, and maybe another player can chose a questiongg
 const GAMEMODES = {
   top_3: {
     name: "Pick top 3",
@@ -73,6 +75,7 @@ const SETTINGS = {
   numOfRounds: {
     name: "Number of rounds",
     options: [
+      { name: "1", value: "1" },
       { name: "3", value: "3" },
       { name: "5", value: "5" },
       { name: "8", value: "8" },

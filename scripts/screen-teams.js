@@ -1,20 +1,17 @@
 const numberOfTimesAPlayerWent = {};
-const whoIsActive = { lastTeamToGo: 0, red: 0, blue: 0 };
-const teams = {
-  red: [],
-  blue: [],
-};
+const teams = {};
+let whoIsActive = { lastTeamToGo: 0 };
 
 function assignTeams() {
-  const teamNames = Object.keys(teams);
-  const numOfTeams = teamNames.length;
+  whoIsActive = { lastTeamToGo: 0 };
+  const numOfTeams = gameSettings.teams.length;
 
   const controllerDeviceIds = airConsole.getControllerDeviceIds();
   const numPlayersPerTeam = controllerDeviceIds.length / numOfTeams;
 
   controllerDeviceIds.sort(() => Math.random() - 0.5);
 
-  teamNames.forEach((teamName, i) => {
+  gameSettings.teams.forEach((teamName, i) => {
     teams[teamName] = controllerDeviceIds
       .slice(i * numPlayersPerTeam, (i + 1) * numPlayersPerTeam)
       .sort(
@@ -22,6 +19,7 @@ function assignTeams() {
           (numberOfTimesAPlayerWent[a] ?? 0) -
           (numberOfTimesAPlayerWent[b] ?? 0)
       );
+    whoIsActive[teamName] = 0;
   });
 }
 
@@ -31,7 +29,7 @@ function addPlayerToTeam(device_id) {
   Object.values(teams).forEach((team) => {
     if (!smallestTeam || team.length < smallestTeam.length) smallestTeam = team;
   });
-  smallestTeam.push(device_id);
+  smallestTeam?.push(device_id);
 }
 
 function removePlayerFromTeam(device_id) {

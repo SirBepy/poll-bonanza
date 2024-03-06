@@ -95,9 +95,9 @@ function initTeamUI() {
     addNewElementToElement("div", teamElem, { className: "players" });
     const scoreElem = addNewElementToElement("div", teamElem, {
       className: "score",
-      text: "Score:",
+      text: "Score: ",
     });
-    addNewElementToElement("span", scoreElem);
+    addNewElementToElement("span", scoreElem, { text: "0" });
   });
 }
 
@@ -175,4 +175,31 @@ function fillSettingsDataUI() {
     gamemodes.name,
     gamemodesNum === gamemodes.options.length ? "All" : gamemodesNum,
   ]);
+}
+
+function updateRoundUI() {
+  [...document.getElementsByClassName("round_indicator")].forEach(
+    (elem) =>
+      (elem.innerText = `${currentRound}/${gameSettings.numOfRounds?.[0]}`)
+  );
+}
+
+function fillEndOfGameUI(teamPointsSorted) {
+  [
+    ...document
+      .getElementsByClassName("ranks-wrapper")[0]
+      .getElementsByTagName("div"),
+  ].forEach((rankPodiumElem, index) => {
+    const team = teamPointsSorted[index];
+    if (!team) {
+      rankPodiumElem.className = "";
+      return;
+    }
+    rankPodiumElem.className = `rankpodium rankpodium-${team.position}`;
+    rankPodiumElem.style.backgroundColor = `var(--team-color-${team.teamKey})`;
+    rankPodiumElem.getElementsByClassName("team_name")[0].innerText =
+      team.teamKey;
+    rankPodiumElem.getElementsByClassName("team_points")[0].innerText =
+      team.points;
+  });
 }

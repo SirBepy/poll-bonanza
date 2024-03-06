@@ -4,9 +4,8 @@ let activePlayerId;
 let unavailableAnswers = [];
 let choicesToPickById = [];
 let gameSettings;
-let points = { red: 0, blue: 0 };
-const totalNumberOfRounds = 3;
-let currentRound = 1;
+let points = {};
+let currentRound = 0;
 
 let allPlayersAnswers = {};
 let orderedAnswers = [];
@@ -34,6 +33,12 @@ function onMessage(device_id, data) {
   if (data.pair) onPairReceive(device_id, data.pair);
   if (data.gameSettings) onNewSettings(device_id, data.gameSettings);
   if (data.getGameSettings) sendBackGameSettings(device_id);
+  if (data.goBackHome) onGoBackHome();
+}
+
+function onGoBackHome() {
+  setNewScreen(PAGES.lobby);
+  updatePointsUI();
 }
 
 function sendBackGameSettings(device_id) {
@@ -99,11 +104,12 @@ async function setupGameSettings() {
     .map(([category]) => category);
   SETTINGS.categories.options = gameSettings.categories;
 
+  assignTeams();
+  initTeamUI();
   fillSettingsDataUI();
 }
 
 function init() {
-  initTeamUI();
   setupGameSettings();
   addTextAndButtonsToSection("questions");
   setupConsole();
@@ -147,6 +153,7 @@ function onPairReceive(device_id, buttonId) {
     choicesToPickById.splice(index, 1);
     const teamNames = Object.keys(teams);
     const currentTeam = teamNames[whoIsActive.lastTeamToGo];
+    if (!points[currentTeam]) points[currentTeam] = 0;
     points[currentTeam]++;
     updatePointsUI();
   }
@@ -237,6 +244,22 @@ function getRandomQuestion() {
   ];
 }
 
+function getSortedTeamPoints() {
+  let position = 1;
+  const sortedTeams = Object.entries(points).map(([teamKey, points]) => ({
+    teamKey,
+    points,
+  }));
+  sortedTeams.sort((a, b) => b.points - a.points);
+  sortedTeams.forEach((team, i) => {
+    const previousTeam = sortedTeams[i - 1] ?? { points: 0 };
+    if (team.points < previousTeam.points) position++;
+
+    team.position = position;
+  });
+  return sortedTeams;
+}
+
 function onNewRound(isReroll) {
   updateEndUI(false);
   allPlayersAnswers = {};
@@ -244,6 +267,20 @@ function onNewRound(isReroll) {
   playersWishingToReroll = {};
   updateRerollUI();
   updatePlayerCounter();
+
+  if (!isReroll) {
+    currentRound++;
+    updateRoundUI();
+    if (currentRound > parseInt(gameSettings.numOfRounds?.[0])) {
+      const teamPointsSorted = getSortedTeamPoints();
+      fillEndOfGameUI(teamPointsSorted);
+      setNewScreen(PAGES.endOfGame);
+
+      points = {};
+      currentRound = 0;
+      return;
+    }
+  }
 
   const gamemodeKey = getRandomGamemode();
   gamemode = GAMEMODES[gamemodeKey];
@@ -275,7 +312,6 @@ function onQuestionsFinished() {
 }
 
 // TODO-SETTINGS: Make settings persist
-// TODO-SETTINGS: Make settings influence numOfRounds properly
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
