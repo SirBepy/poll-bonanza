@@ -55,6 +55,8 @@ function sendBackGameSettings(device_id) {
 function onNewSettings(device_id, settings) {
   if (!getIsMaster(device_id)) return;
   gameSettings = settings;
+  localStorage.setItem(CACHE_SETTINGS_KEY, JSON.stringify(settings))
+  
   updateTeamsFromSettings();
   fillSettingsDataUI();
 }
@@ -98,11 +100,19 @@ function setupConsole() {
 
 async function setupGameSettings() {
   await Promise.all(CSV_LOADING_PROGRESS);
-  gameSettings = DEFAULT_SETTINGS;
-  gameSettings.categories = Object.entries(ALL_QUESTIONS_BY_CATEGORY)
+  SETTINGS.categories.options = Object.entries(ALL_QUESTIONS_BY_CATEGORY)
     .filter(([_, questions]) => questions.length > 0)
     .map(([category]) => category);
-  SETTINGS.categories.options = gameSettings.categories;
+
+  const savedSettings = JSON.parse(
+    localStorage.getItem(CACHE_SETTINGS_KEY)
+  );
+  if (savedSettings) {
+    gameSettings = savedSettings;
+  } else {
+    gameSettings = {...DEFAULT_SETTINGS};
+    gameSettings.categories = [...SETTINGS.categories.options];
+  }
 
   assignTeams();
   initTeamUI();
@@ -310,8 +320,6 @@ function onQuestionsFinished() {
   highlightChoices();
   assignActivePlayer();
 }
-
-// TODO-SETTINGS: Make settings persist
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
