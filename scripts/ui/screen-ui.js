@@ -113,7 +113,12 @@ function updateTeamUI() {
     }
     teamElem.style.display = "flex";
     teamElem.getElementsByClassName("players")[0].innerHTML = teams[teamColor]
-      .map((playerId) => `<span>${airConsole.getNickname(playerId)}</span>`)
+      .map(
+        (playerId) => `<div class="team-player">
+        <img src="${airConsole.getProfilePicture(playerId, 32)}"/>
+        <span>${airConsole.getNickname(playerId)}</span>
+      </div>`
+      )
       .join("");
   });
 }

@@ -92,12 +92,25 @@ tr.show-table-value.yellow-pick::after {
 #scoreboard .score {
   border-top: 1px solid white;
   padding-top: 0.5em;
+  margin-top: 0.5em;
 }
 
 #scoreboard .players {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+}
+
+.team-player img {
+  width: 2em;
+  border-radius: 50%;
+}
+
+.team-player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
 }
 
 #settings-table {
