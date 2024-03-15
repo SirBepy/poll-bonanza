@@ -105,5 +105,3 @@ const DEFAULT_SETTINGS = {
   categories: FILES_TO_LOOK_FOR,
   gamemodes: Object.keys(GAMEMODES),
 };
-
-const CACHE_SETTINGS_KEY = 'SPLIT_OPINIONS_SETTINGS'

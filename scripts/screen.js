@@ -55,7 +55,7 @@ function sendBackGameSettings(device_id) {
 function onNewSettings(device_id, settings) {
   if (!getIsMaster(device_id)) return;
   gameSettings = settings;
-  localStorage.setItem(CACHE_SETTINGS_KEY, JSON.stringify(settings))
+  setCacheSettings(settings)
   
   updateTeamsFromSettings();
   fillSettingsDataUI();
@@ -104,9 +104,7 @@ async function setupGameSettings() {
     .filter(([_, questions]) => questions.length > 0)
     .map(([category]) => category);
 
-  const savedSettings = JSON.parse(
-    localStorage.getItem(CACHE_SETTINGS_KEY)
-  );
+  const savedSettings = getCacheSettings();
   if (savedSettings) {
     gameSettings = savedSettings;
   } else {
