@@ -55,8 +55,8 @@ function sendBackGameSettings(device_id) {
 function onNewSettings(device_id, settings) {
   if (!getIsMaster(device_id)) return;
   gameSettings = settings;
-  setCacheSettings(settings)
-  
+  setCacheSettings(settings);
+
   updateTeamsFromSettings();
   fillSettingsDataUI();
 }
@@ -108,7 +108,7 @@ async function setupGameSettings() {
   if (savedSettings) {
     gameSettings = savedSettings;
   } else {
-    gameSettings = {...DEFAULT_SETTINGS};
+    gameSettings = { ...DEFAULT_SETTINGS };
     gameSettings.categories = [...SETTINGS.categories.options];
   }
 
@@ -187,16 +187,21 @@ function getFirstOrderedFreePosition() {
 
 function getCalculatedAnswers() {
   const calculatedInObj = {};
-  Object.values(allPlayersAnswers).forEach((answers) => {
+  Object.entries(allPlayersAnswers).forEach(([playerId, answers]) => {
     Object.entries(answers).forEach(([position, buttonId]) => {
-      calculatedInObj[buttonId] =
-        (calculatedInObj[buttonId] ?? 0) + POSITION_POINTS[position];
+      if (!calculatedInObj[buttonId])
+        calculatedInObj[buttonId] = { points: 0, players: [] };
+      calculatedInObj[buttonId].points += POSITION_POINTS[position];
+      calculatedInObj[buttonId].players.push({ playerId, position });
     });
   });
+
   const orderedList = [];
-  Object.entries(calculatedInObj).forEach(([buttonId, points]) => {
-    orderedList.push({ buttonId, points });
+  Object.entries(calculatedInObj).forEach(([buttonId, { points, players }]) => {
+    players.sort((a, b) => a.position - b.position);
+    orderedList.push({ buttonId, points, players });
   });
+
   orderedList.sort((a, b) => b.points - a.points);
   let currentPosition = 1;
   for (let i = 0; i < orderedList.length; i++) {
@@ -216,6 +221,7 @@ function getCalculatedAnswers() {
         points: "0",
         position: NUM_OF_CHOICES_PER_QUESTION,
         buttonId,
+        players: []
       });
     }
   });
@@ -322,5 +328,7 @@ function onQuestionsFinished() {
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
 
-// TODO-GENERAL: At the end of the round show what everyone else picked
+// TODO-FIX: If the only options left are the correct options then end the game
+
+// TODO-GENERAL: Dramatic reveal if the answer is right or wrong
 // TODO-GENERAL: Remove questions that were already used

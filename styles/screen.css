@@ -22,25 +22,26 @@ button {
 
 td.col_answer {
   opacity: 0;
+  position: relative;
 }
 
 tr.show-table-value td.col_answer {
   opacity: 1;
 }
 
-tr.show-table-value.red-pick {
+.red-pick, tr.red-pick:not(.remove-bg) {
   background-color: var(--team-color-red);
 }
 
-tr.show-table-value.blue-pick {
+.blue-pick, tr.blue-pick:not(.remove-bg) {
   background-color: var(--team-color-blue);
 }
 
-tr.show-table-value.green-pick {
+.green-pick, tr.green-pick:not(.remove-bg) {
   background-color: var(--team-color-green);
 }
 
-tr.show-table-value.yellow-pick {
+.yellow-pick, tr.yellow-pick:not(.remove-bg) {
   background-color: var(--team-color-yellow);
 }
 
@@ -180,4 +181,35 @@ tr.show-table-value.yellow-pick {
   content: "1";
   font-size: 3em;
   opacity: 1;
+}
+
+.player_answers {
+  display: flex;
+  position: absolute;
+  right: 4px;
+  bottom: 0;
+  gap: 8px;
+}
+
+.player_answers div {
+  position: relative;
+}
+
+.player_answers img {
+  width: 1.5em;
+  border-radius: 50%;
+}
+
+.player_answers span {
+  display: block;
+  position: absolute;
+
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 1.5px;
+  bottom: 1px;
+  left: -5px;
+  border-radius: 50%;
 }

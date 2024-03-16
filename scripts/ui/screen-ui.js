@@ -25,6 +25,7 @@ function updatePlayerCounterUI(numOfReadyPlayers, numOfTotalPlayers) {
 const TD_CLASS_POSITION = "col_rank";
 const TD_CLASS_POINTS = "col_points";
 const TD_CLASS_ANSWER = "col_answer";
+const DIV_CLASS_PLAYER_ANSWERS = "player_answers";
 
 function highlightTableUI(choices) {
   const tableElement = document
@@ -68,9 +69,26 @@ function updateTableUI() {
       text: row.points,
       className: TD_CLASS_POINTS,
     });
-    addNewElementToElement("td", rowElem, {
+    const answerElem = addNewElementToElement("td", rowElem, {
       text: currentQuestion.answers[answerIndex - 1],
       className: TD_CLASS_ANSWER,
+    });
+
+    const imgsWrapperElem = addNewElementToElement("div", answerElem, {
+      className: DIV_CLASS_PLAYER_ANSWERS,
+    });
+    row.players.forEach(({ playerId, position }) => {
+      const playerElem = addNewElementToElement("div", imgsWrapperElem);
+      const [teamName] = Object.entries(teams).find(([_, team]) =>
+        team.includes(parseInt(playerId))
+      );
+
+      addNewElementToElement("span", playerElem, {
+        text: position,
+        className: `${teamName}-pick`,
+      });
+      addNewElementToElement("img", playerElem).src =
+        airConsole.getProfilePicture(playerId, 32);
     });
   });
 }
