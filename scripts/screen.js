@@ -69,7 +69,7 @@ function toggleReroll(device_id, isWishingToReroll) {
   const numOfPlayers = airConsole.getControllerDeviceIds().length;
 
   if (numOfRerollsRequested > numOfPlayers * 0.6) {
-    onNewRound();
+    onNewRound(true);
   }
 }
 
