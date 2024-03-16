@@ -28,35 +28,19 @@ tr.show-table-value td.col_answer {
   opacity: 1;
 }
 
-tr.show-table-value.red-pick::after,
-tr.show-table-value.blue-pick::after,
-tr.show-table-value.green-pick::after,
-tr.show-table-value.yellow-pick::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -0.5em;
-  transform: translateY(-50%);
-
-  background-color: white;
-  width: 1em;
-  height: 1em;
-  border-radius: 100%;
-}
-
-tr.show-table-value.red-pick::after {
+tr.show-table-value.red-pick {
   background-color: var(--team-color-red);
 }
 
-tr.show-table-value.blue-pick::after {
+tr.show-table-value.blue-pick {
   background-color: var(--team-color-blue);
 }
 
-tr.show-table-value.green-pick::after {
+tr.show-table-value.green-pick {
   background-color: var(--team-color-green);
 }
 
-tr.show-table-value.yellow-pick::after {
+tr.show-table-value.yellow-pick {
   background-color: var(--team-color-yellow);
 }
 
