@@ -118,6 +118,7 @@ async function setupGameSettings() {
 }
 
 function init() {
+  initPrevQuestions();
   setupGameSettings();
   addTextAndButtonsToSection("questions");
   setupConsole();
@@ -254,16 +255,32 @@ function getRandomGamemode() {
   return randomKey;
 }
 
-function getRandomQuestion() {
-  const availableQuestions = [];
+function getAvailableQuestions() {
+  const questionsFromSelCategories = [];
   Object.entries(ALL_QUESTIONS_BY_CATEGORY).forEach(([category, questions]) => {
     if (gameSettings.categories.includes(category)) {
-      availableQuestions.push(...questions);
+      questionsFromSelCategories.push(...questions);
     }
   });
-  return availableQuestions[
-    Math.floor(Math.random() * availableQuestions.length)
-  ];
+
+  const filteredQuestions = questionsFromSelCategories.filter(
+    (question) =>
+      !prevDoneQuestions.includes(`${question.category}${question.question}`)
+  );
+
+  if (filteredQuestions.length > 0) return filteredQuestions;
+
+  clearPrevQuestions();
+  return questionsFromSelCategories;
+}
+
+function getRandomQuestion() {
+  const questions = getAvailableQuestions();
+  const selectedQuestion =
+    questions[Math.floor(Math.random() * questions.length)];
+  addPrevQuestion(`${selectedQuestion.category}${selectedQuestion.question}`);
+  console.log('=>', prevDoneQuestions)
+  return selectedQuestion;
 }
 
 function getSortedTeamPoints() {
@@ -338,4 +355,3 @@ function onQuestionsFinished() {
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
 
 // TODO-GENERAL: Dramatic reveal if the answer is right or wrong
-// TODO-GENERAL: Remove questions that were already used
