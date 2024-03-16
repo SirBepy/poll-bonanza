@@ -203,7 +203,7 @@ function fillSettingsDataUI() {
 function updateRoundUI() {
   [...document.getElementsByClassName("round_indicator")].forEach(
     (elem) =>
-      (elem.innerText = `${currentRound}/${gameSettings.numOfRounds?.[0]}`)
+      (elem.innerText = `Round: ${currentRound} / ${gameSettings.numOfRounds?.[0]}`)
   );
 }
 
