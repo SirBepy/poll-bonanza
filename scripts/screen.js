@@ -166,9 +166,17 @@ function onPairReceive(device_id, buttonId) {
     updatePointsUI();
   }
 
+  const pickedAllRightChoices = choicesToPickById.length == 0;
+  const pickedAllButRightChoices =
+    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length ==
+    choicesToPickById.length;
+  const onlyOneChoiceRemains =
+    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1;
+
   if (
-    choicesToPickById.length == 0 ||
-    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1
+    pickedAllRightChoices ||
+    pickedAllButRightChoices ||
+    onlyOneChoiceRemains
   ) {
     airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
     updateEndUI(true);
@@ -221,7 +229,7 @@ function getCalculatedAnswers() {
         points: "0",
         position: NUM_OF_CHOICES_PER_QUESTION,
         buttonId,
-        players: []
+        players: [],
       });
     }
   });
@@ -276,6 +284,7 @@ function getSortedTeamPoints() {
 
 function onNewRound(isReroll) {
   updateEndUI(false);
+  choicesToPickById = [];
   allPlayersAnswers = {};
   unavailableAnswers = [];
   playersWishingToReroll = {};
@@ -327,8 +336,6 @@ function onQuestionsFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
-
-// TODO-FIX: If the only options left are the correct options then end the game
 
 // TODO-GENERAL: Dramatic reveal if the answer is right or wrong
 // TODO-GENERAL: Remove questions that were already used
