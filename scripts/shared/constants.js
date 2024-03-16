@@ -9,7 +9,6 @@ const PAGES = {
   endOfGame: "endOfGame",
 };
 
-// TODO: In the future, just like for faking-it, a player should be able to chose the next gamemode, and maybe another player can chose a questiongg
 const GAMEMODES = {
   top_3: {
     name: "Pick top 3",
@@ -22,13 +21,13 @@ const GAMEMODES = {
     choicesToPick: [2, 3, 4],
   },
   bottom_to_top: {
-    name: "Pick all, ordered from bottom to top",
+    name: "Ordered pick from bottom to top",
     allowedChoices: 5,
     choicesToPick: [8, 7, 6, 5, 4, 3, 2],
     ordered: true,
   },
   top_to_bottom: {
-    name: "Pick all, ordered from top to bottom",
+    name: "Ordered pick from top to bottom",
     allowedChoices: 5,
     choicesToPick: [1, 2, 3, 4, 5, 6, 7],
     ordered: true,
@@ -75,11 +74,11 @@ const SETTINGS = {
   numOfRounds: {
     name: "Number of rounds",
     options: [
-      { name: "1", value: "1" },
+      { name: "2", value: "2" },
       { name: "3", value: "3" },
+      { name: "4", value: "4" },
       { name: "5", value: "5" },
-      { name: "8", value: "8" },
-      { name: "10", value: "10" },
+      { name: "6", value: "6" },
       { name: "Infinite", value: "9999" },
     ],
     onlyOneIsActive: true,

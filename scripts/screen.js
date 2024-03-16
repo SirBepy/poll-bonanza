@@ -354,3 +354,7 @@ function onQuestionsFinished() {
 // TODO-GAMEMODE: Add who_does_this_belong_to gamemode
 
 // TODO-GENERAL: Dramatic reveal if the answer is right or wrong
+
+// TODO: Add extra points for the first team to pick exactly one position
+// TODO: Just like for faking-it, a player should be able to chose the next gamemode
+// TODO: Have an option somewhere in the controller screen to always see what answers you chose
