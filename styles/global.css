@@ -88,12 +88,13 @@ table th {
   padding: 8px;
 }
 
-table tr:nth-child(even) {
-  background-color: var(--color-secondary-dark);
-}
-
 table tr {
   position: relative;
+  background-color: #479180;
+}
+
+table tr:nth-child(odd) {
+  background-color: var(--color-secondary-dark);
 }
 
 table th {
