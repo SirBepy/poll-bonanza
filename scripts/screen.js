@@ -279,7 +279,6 @@ function getRandomQuestion() {
   const selectedQuestion =
     questions[Math.floor(Math.random() * questions.length)];
   addPrevQuestion(`${selectedQuestion.category}${selectedQuestion.question}`);
-  console.log('=>', prevDoneQuestions)
   return selectedQuestion;
 }
 
