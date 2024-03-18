@@ -45,8 +45,12 @@ tr.show-table-value td.col_answer {
   background-color: var(--team-color-yellow);
 }
 
-#pairing.show-end * {
-  opacity: 1 !important;
+#pairing.show-end .waiting_text {
+  opacity: 0;
+}
+
+#pairing.show-end .on_end {
+  opacity: 1;
 }
 
 #pairing.show-end .col_points {
