@@ -49,7 +49,7 @@ tr.show-table-value td.col_answer {
   opacity: 0;
 }
 
-#pairing.show-end .on_end {
+#pairing.show-end .on_end, #pairing.show-end .col_answer {
   opacity: 1;
 }
 
