@@ -41,10 +41,15 @@ const GAMEMODES = {
   who_does_this_belong_to: {
     name: "Guess who the list belongs to",
     allowedChoices: 3,
-    specialRule: 'match_to_player',
+    specialRule: "match_to_player",
     usesOponentsAnswers: true,
   },
 };
+
+// So that its easier to get the gamemodeKey
+Object.keys(GAMEMODES).forEach(
+  (gamemode) => (GAMEMODES[gamemode].key = gamemode)
+);
 
 const POSITION_POINTS = {
   1: 21,

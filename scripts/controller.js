@@ -12,22 +12,33 @@ function onCustomDeviceStateChange(sender_id, data) {
     disableUnusedTeams(data.teams);
   }
   if (data.screen) {
+    const newScreenIsSettings = [
+      PAGES.allSettings,
+      PAGES.settingsDetail,
+    ].includes(currentScreen);
+
+    const isWaitingForPlayers = currentScreen == PAGES.waitForPlayers;
+    const isBringingBackToQuestions = isWaitingForPlayers
+      ? data.screen == PAGES.questions
+      : false;
+
     if (
-      ![PAGES.allSettings, PAGES.settingsDetail].includes(currentScreen) ||
-      !getIsMaster()
-    )
+      (!newScreenIsSettings || !getIsMaster()) &&
+      !isBringingBackToQuestions
+    ) {
       displayScreen(data.screen);
+    }
   }
 
   if (
     !data.gamemodeKey ||
     !data.currentQuestion?.question ||
-    (gamemode == GAMEMODES[data.gamemodeKey] &&
+    (gamemode.key == data.gamemodeKey &&
       currentQuestion?.question == data.currentQuestion.question)
   )
     return;
   gamemode = GAMEMODES[data.gamemodeKey];
-  updateGamemodeClass()
+  updateGamemodeClass();
   currentQuestion = data.currentQuestion;
 
   choices = {};
@@ -56,9 +67,9 @@ function onMessage(device_id, data) {
 }
 
 function showPlayersToPick(playersToPick) {
-  const { teamKey, teamPlayers } = playersToPick;
-  const bro = document.getElementById("pairing-players");
-  bro.innerHTML = "";
+  const { teamPlayers } = playersToPick;
+  const pairingPlayersElem = document.getElementById("pairing-players");
+  pairingPlayersElem.innerHTML = "";
   addTextAndButtonsToSection(
     "pairing-players",
     "playersanswer",
