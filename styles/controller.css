@@ -168,3 +168,17 @@ span.hint {
 .team_yellow #team-toggle-button-yellow {
   background-color: var(--color-primary);
 }
+
+.match_to_player #pairing-normal, #pairing-players {
+  display: none;
+}
+
+#pairing-normal, .match_to_player #pairing-players {
+  display: flex;
+}
+
+#pairing-normal, #pairing-players {
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}

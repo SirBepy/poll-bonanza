@@ -25,6 +25,7 @@ function updatePlayerCounterUI(numOfReadyPlayers, numOfTotalPlayers) {
 const TD_CLASS_POSITION = "col_rank";
 const TD_CLASS_POINTS = "col_points";
 const TD_CLASS_ANSWER = "col_answer";
+const TR_SHOW_VALUE_CLASS = "show-table-value";
 const DIV_CLASS_PLAYER_ANSWERS = "player_answers";
 
 function highlightTableUI(choices) {
@@ -44,16 +45,46 @@ function highlightTableUI(choices) {
   });
 }
 
-function updateTableUI() {
+function getResetedTableUI(addPoints) {
   const tableElement = document
     .getElementById("pairing")
     ?.getElementsByTagName("table")[0];
   if (!tableElement) throw new Error("Table not found in pairing");
-  const tableHeader = tableElement.getElementsByClassName("header")?.[0];
 
-  // Clear previous pairing
-  tableElement.innerHTML = "";
-  tableElement.appendChild(tableHeader);
+  tableElement.innerHTML = `<thead>
+      <tr class="header">
+        <th class="${TD_CLASS_POSITION}">#</th>
+        ${addPoints ? `<th class="${TD_CLASS_POINTS}">Points</th>` : ''}
+        <th class="${TD_CLASS_ANSWER}">Answer</th>
+      </tr>
+    </thead>`;
+  return addNewElementToElement('tbody', tableElement);
+}
+
+function initOponentsPicksTableUI(playerToGuessFrom) {
+  const { team, playerId, picks } = playerToGuessFrom;
+
+  const tableElement = getResetedTableUI();
+
+  Object.entries(picks).forEach(([position, buttonId]) => {
+    const answerIndex = parseInt(buttonId.split("-")[1]);
+    const rowElem = addNewElementToElement("tr", tableElement, {
+      className: TR_SHOW_VALUE_CLASS,
+    });
+
+    addNewElementToElement("td", rowElem, {
+      text: position,
+      className: TD_CLASS_POSITION,
+    });
+    addNewElementToElement("td", rowElem, {
+      text: currentQuestion.answers[answerIndex - 1],
+      className: TD_CLASS_ANSWER,
+    });
+  });
+}
+
+function initBasicPicksTableUI(orderedAnswers) {
+  const tableElement = getResetedTableUI(true);
   orderedAnswers.forEach((row) => {
     const answerIndex = parseInt(row.buttonId.split("-")[1]);
 
@@ -158,7 +189,7 @@ function updateTableRowToggledUI(device_id, buttonId) {
       rowElem.classList.add(`${teamName}-pick`);
     }
   });
-  rowElem.classList.add("show-table-value");
+  rowElem.classList.add(TR_SHOW_VALUE_CLASS);
 }
 
 function updateActivePlayerUI() {
@@ -171,7 +202,7 @@ function updateActivePlayerUI() {
     nick = airConsole.getNickname(airConsole.getMasterControllerDeviceId());
   }
   [...waitingTextElems].forEach(
-    (element) => (element.innerText = `Waiting for ${nick}`)
+    (element) => (element.innerText = `${nick} is picking`)
   );
 }
 

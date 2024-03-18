@@ -6,9 +6,9 @@ let choicesToPickById = [];
 let gameSettings;
 let points = {};
 let currentRound = 0;
+let playerToGuessFrom = 0;
 
 let allPlayersAnswers = {};
-let orderedAnswers = [];
 
 function setNewScreen(newScreen) {
   airConsole.setCustomDeviceStateProperty("screen", newScreen);
@@ -120,7 +120,11 @@ async function setupGameSettings() {
 function init() {
   initPrevQuestions();
   setupGameSettings();
-  addTextAndButtonsToSection("questions");
+  addTextAndButtonsToSection(
+    "questions",
+    "-",
+    [...Array(NUM_OF_CHOICES_PER_QUESTION).keys()].map((i) => ++i)
+  );
   setupConsole();
 }
 
@@ -132,6 +136,55 @@ function onAnswersReceived(device_id, answers) {
   updatePlayerCounter();
 }
 
+function addPointsToTeam() {
+  const teamNames = Object.keys(teams);
+  const team = teamNames[whoIsActive.lastTeamToGo];
+  if (!points[team]) points[team] = 0;
+  points[team]++;
+  updatePointsUI();
+}
+
+function isRoundDone() {
+  const pickedAllRightChoices = choicesToPickById.length == 0;
+  const pickedAllButRightChoices =
+    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length ==
+    choicesToPickById.length;
+  const onlyOneChoiceRemains =
+    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1;
+
+  return (
+    pickedAllRightChoices || pickedAllButRightChoices || onlyOneChoiceRemains
+  );
+}
+
+function onRoundDone() {
+  airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
+  updateEndUI(true);
+}
+
+let numOfTeamsDidMatchToPlayer = 0;
+
+function onPairReceiveMatchToPlayer(buttonId) {
+  const selectedPlayerId = parseInt(buttonId.split("-")[1]);
+  const answers = allPlayersAnswers[selectedPlayerId];
+  const { playerId, picks, team } = playerToGuessFrom;
+  if (
+    selectedPlayerId == playerId ||
+    JSON.stringify(answers) === JSON.stringify(picks)
+  ) {
+    addPointsToTeam();
+    playerToGuessFrom = getPlayerToGuessFrom();
+    initOponentsPicksTableUI(playerToGuessFrom);
+  }
+
+  numOfTeamsDidMatchToPlayer++;
+  if (numOfTeamsDidMatchToPlayer >= Object.keys(teams).length) {
+    onRoundDone();
+  } else {
+    assignActivePlayer();
+  }
+}
+
 function onPairReceive(device_id, buttonId) {
   if (device_id != activePlayerId)
     throw new Error("Somehow wrong id tried pairing");
@@ -141,57 +194,53 @@ function onPairReceive(device_id, buttonId) {
   numberOfTimesAPlayerWent[device_id] =
     (numberOfTimesAPlayerWent[device_id] ?? 0) + 1;
 
+  if (gamemode.specialRule == "match_to_player") {
+    onPairReceiveMatchToPlayer(buttonId);
+    return;
+  }
+
   const index = choicesToPickById.findIndex((choice) => choice.id == buttonId);
 
   if (gamemode.ordered) {
     if (index == -1) return assignActivePlayer();
     const firstMostFreePosition = getFirstOrderedFreePosition();
     const didPickFirstPossibleChoice =
-      choicesToPickById[index]?.position != firstMostFreePosition;
-    if (didPickFirstPossibleChoice) return assignActivePlayer();
+      choicesToPickById[index]?.position == firstMostFreePosition;
+    if (!didPickFirstPossibleChoice) return assignActivePlayer();
   }
 
   updateTableRowToggledUI(device_id, buttonId);
-
-  numberOfTimesAPlayerWent[device_id] =
-    (numberOfTimesAPlayerWent[device_id] ?? 0) + 1;
-
   unavailableAnswers.push(buttonId);
+  highlightChoices();
 
   if (index > -1) {
     choicesToPickById.splice(index, 1);
-    const teamNames = Object.keys(teams);
-    const currentTeam = teamNames[whoIsActive.lastTeamToGo];
-    if (!points[currentTeam]) points[currentTeam] = 0;
-    points[currentTeam]++;
-    updatePointsUI();
+    addPointsToTeam();
   }
-
-  const pickedAllRightChoices = choicesToPickById.length == 0;
-  const pickedAllButRightChoices =
-    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length ==
-    choicesToPickById.length;
-  const onlyOneChoiceRemains =
-    NUM_OF_CHOICES_PER_QUESTION - unavailableAnswers.length <= 1;
-
-  if (
-    pickedAllRightChoices ||
-    pickedAllButRightChoices ||
-    onlyOneChoiceRemains
-  ) {
-    airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
-    updateEndUI(true);
+  console.log("=>");
+  if (isRoundDone()) {
+    onRoundDone();
   } else {
     assignActivePlayer();
   }
-
-  highlightChoices();
 }
 
 function getFirstOrderedFreePosition() {
   return gamemode.choicesToPick.find((gamemodePosition) =>
     choicesToPickById.some(({ position }) => position == gamemodePosition)
   );
+}
+
+function getPlayerToGuessFrom() {
+  const { teamKey, teamPlayers } = getNextTeam();
+  const playerToGuessFromId =
+    teamPlayers[Math.floor(Math.random() * teamPlayers.length)];
+
+  return {
+    team: teamKey,
+    playerId: playerToGuessFromId,
+    picks: allPlayersAnswers[playerToGuessFromId],
+  };
 }
 
 function getCalculatedAnswers() {
@@ -300,6 +349,7 @@ function getSortedTeamPoints() {
 
 function onNewRound(isReroll) {
   updateEndUI(false);
+  numOfTeamsDidMatchToPlayer = 0;
   choicesToPickById = [];
   allPlayersAnswers = {};
   unavailableAnswers = [];
@@ -344,14 +394,23 @@ function highlightChoices() {
 
 function onQuestionsFinished() {
   setNewScreen(PAGES.pairing);
-  orderedAnswers = getCalculatedAnswers();
-  updateTableUI();
-  highlightChoices();
   assignActivePlayer();
+
+  if (gamemode.usesOponentsAnswers) {
+    playerToGuessFrom = getPlayerToGuessFrom();
+    initOponentsPicksTableUI(playerToGuessFrom);
+  } else {
+    const orderedAnswers = getCalculatedAnswers();
+    initBasicPicksTableUI(orderedAnswers);
+    highlightChoices();
+  }
 }
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
-// TODO-GAMEMODE: Add who_does_this_belong_to gamemode
+
+// TODO-FIX: Players ready stays on 2/2
+// TODO-FIX: Late joining unsubmits
+// TODO-FIX: Late added "undefined" player in pairing-players
 
 // TODO-GENERAL: Dramatic reveal if the answer is right or wrong
 

@@ -27,6 +27,7 @@ function onCustomDeviceStateChange(sender_id, data) {
   )
     return;
   gamemode = GAMEMODES[data.gamemodeKey];
+  updateGamemodeClass()
   currentQuestion = data.currentQuestion;
 
   choices = {};
@@ -49,17 +50,27 @@ function checkIfTeamsAreSafe(teams) {
 
 function onMessage(device_id, data) {
   if (data.unavailableAnswers) hideAnswersUI(data.unavailableAnswers);
+  if (data.playersToPick) showPlayersToPick(data.playersToPick);
   if (data.gameSettings) gameSettings = data.gameSettings;
   if (data.categories) SETTINGS.categories.options = data.categories;
 }
 
+function showPlayersToPick(playersToPick) {
+  const { teamKey, teamPlayers } = playersToPick;
+  const bro = document.getElementById("pairing-players");
+  bro.innerHTML = "";
+  addTextAndButtonsToSection(
+    "pairing-players",
+    "playersanswer",
+    teamPlayers,
+    onPair
+  );
+}
+
 function initUI() {
-  addTextAndButtonsToSection("questions", "answer", function () {
-    toggleAnswer(this);
-  });
-  addTextAndButtonsToSection("pairing", "tableanswer", function () {
-    onPair(this);
-  });
+  const btnIds = [...Array(NUM_OF_CHOICES_PER_QUESTION).keys()].map((i) => ++i);
+  addTextAndButtonsToSection("questions", "answer", btnIds, toggleAnswer);
+  addTextAndButtonsToSection("pairing-normal", "tableanswer", btnIds, onPair);
   fillAllSettingsUI();
   initTeamsTogglerUI();
 }
@@ -144,5 +155,5 @@ function switchTeams(teamName) {
 }
 
 function goBackHome() {
-  sendScreenEvent({ goBackHome: true })
+  sendScreenEvent({ goBackHome: true });
 }

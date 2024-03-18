@@ -1,9 +1,9 @@
 function updateIsActivePlayerClass(player_id) {
   const pairingElem = document.getElementById("pairing");
   if (airConsole.device_id == player_id) {
-    pairingElem.className = "isActivePlayer";
+    pairingElem.classList.add("isActivePlayer");
   } else {
-    pairingElem.className = "";
+    pairingElem.classList.remove("isActivePlayer");
   }
 }
 
@@ -153,4 +153,13 @@ function disableUnusedTeams(teams) {
 
     btnElem.disabled = !teams[color.value];
   });
+}
+
+function updateGamemodeClass() {
+  const pairingSectionElem = document.getElementById("pairing");
+  if (gamemode.specialRule == "match_to_player") {
+    pairingSectionElem.classList.add("match_to_player");
+  } else {
+    pairingSectionElem.classList.remove("match_to_player");
+  }
 }

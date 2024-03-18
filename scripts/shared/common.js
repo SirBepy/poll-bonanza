@@ -51,7 +51,12 @@ function addRowToTable(table, values) {
   values.forEach((value) => addNewElementToElement("td", row, { text: value }));
 }
 
-function addTextAndButtonsToSection(sectionId, btnIdPrefix, onBtnClick) {
+function addTextAndButtonsToSection(
+  sectionId,
+  btnIdPrefix,
+  options,
+  onBtnClick
+) {
   const container = document.getElementById(sectionId);
   if (!container) throw new Error("Container element not found!");
   addNewElementToElement("p", container, {
@@ -62,14 +67,19 @@ function addTextAndButtonsToSection(sectionId, btnIdPrefix, onBtnClick) {
     text: "This text describes the gamemode",
     className: "gamemode",
   });
-
-  for (let i = 1; i <= NUM_OF_CHOICES_PER_QUESTION; i++) {
-    const button = addNewElementToElement("button", container, {
-      id: `${btnIdPrefix}-${i}`,
+  
+  options.forEach((option) => {
+    const btnElem = addNewElementToElement("button", container, {
+      id: `${btnIdPrefix}-${option}`,
+      className: `answer answer-${option}`,
+      onClick: function () {
+        onBtnClick(this);
+      },
     });
-    button.className = `answer answer-${i}`;
-    button.onclick = onBtnClick;
-  }
+    if (gamemode.specialRule == "match_to_player") {
+      btnElem.innerText = airConsole.getNickname(option);
+    }
+  });
 }
 
 function fillDataOfAllElementsByClass(className, text) {

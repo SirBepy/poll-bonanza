@@ -41,6 +41,15 @@ function removePlayerFromTeam(device_id) {
   });
 }
 
+function getNextTeam() {
+  let ttgfIndex = whoIsActive.lastTeamToGo + 1;
+  const teamsArray = Object.entries(teams);
+  if (ttgfIndex >= teamsArray.length) ttgfIndex = 0;
+
+  const [teamKey, teamPlayers] = teamsArray[ttgfIndex];
+  return { teamKey, teamPlayers };
+}
+
 function assignActivePlayer(didPlayerLeave) {
   const teamNames = Object.keys(teams);
   const numOfTeams = teamNames.length;
@@ -54,7 +63,11 @@ function assignActivePlayer(didPlayerLeave) {
   }
 
   activePlayerId = teams[currentTeam][whoIsActive[currentTeam]];
-  airConsole.message(activePlayerId, { unavailableAnswers });
+  if (gamemode.specialRule == 'match_to_player') {
+    airConsole.message(activePlayerId, { playersToPick: getNextTeam() });
+  } else {
+    airConsole.message(activePlayerId, { unavailableAnswers });
+  }
   airConsole.setCustomDeviceStateProperty("activePlayer", activePlayerId);
   updateActivePlayerUI();
 }
