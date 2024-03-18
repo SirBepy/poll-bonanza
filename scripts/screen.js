@@ -217,7 +217,6 @@ function onPairReceive(device_id, buttonId) {
     choicesToPickById.splice(index, 1);
     addPointsToTeam();
   }
-  console.log("=>");
   if (isRoundDone()) {
     onRoundDone();
   } else {
@@ -355,7 +354,6 @@ function onNewRound(isReroll) {
   unavailableAnswers = [];
   playersWishingToReroll = {};
   updateRerollUI();
-  updatePlayerCounter();
 
   if (!isReroll) {
     currentRound++;
@@ -377,6 +375,7 @@ function onNewRound(isReroll) {
   fillData();
 
   displayScreen(PAGES.questions);
+  updatePlayerCounter()
   airConsole.setCustomDeviceState({
     screen: PAGES.questions,
     currentQuestion,
@@ -408,7 +407,6 @@ function onQuestionsFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 
-// TODO-FIX: Players ready stays on 2/2
 // TODO-FIX: Late joining unsubmits
 // TODO-FIX: Late added "undefined" player in pairing-players
 
