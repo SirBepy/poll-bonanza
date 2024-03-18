@@ -411,8 +411,6 @@ function onQuestionsFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 
-// TODO-FIX: Late added "undefined" player in pairing-players
-
 // TODO-GENERAL: Dramatic reveal if the answer is right or wrong
 
 // TODO-FUTURE: Add extra points for the first team to pick exactly one position

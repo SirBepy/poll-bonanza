@@ -67,13 +67,12 @@ function onMessage(device_id, data) {
 }
 
 function showPlayersToPick(playersToPick) {
-  const { teamPlayers } = playersToPick;
   const pairingPlayersElem = document.getElementById("pairing-players");
   pairingPlayersElem.innerHTML = "";
   addTextAndButtonsToSection(
     "pairing-players",
     "playersanswer",
-    teamPlayers,
+    playersToPick,
     onPair
   );
 }
