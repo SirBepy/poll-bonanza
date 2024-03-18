@@ -303,7 +303,7 @@ function getRandomGamemode() {
   return randomKey;
 }
 
-function getAvailableQuestions() {
+function getAvailableQuestions(alreadyLooped) {
   const questionsFromSelCategories = [];
   Object.entries(ALL_QUESTIONS_BY_CATEGORY).forEach(([category, questions]) => {
     if (gameSettings.categories.includes(category)) {
@@ -318,7 +318,11 @@ function getAvailableQuestions() {
 
   if (filteredQuestions.length > 0) return filteredQuestions;
 
+  const lastQuestion = prevDoneQuestions[prevDoneQuestions.length - 1]
   clearPrevQuestions();
+  addPrevQuestion(lastQuestion);
+
+  if (!alreadyLooped) return getAvailableQuestions(true);
   return questionsFromSelCategories;
 }
 
@@ -375,7 +379,7 @@ function onNewRound(isReroll) {
   fillData();
 
   displayScreen(PAGES.questions);
-  updatePlayerCounter()
+  updatePlayerCounter();
   airConsole.setCustomDeviceState({
     screen: PAGES.questions,
     currentQuestion,
