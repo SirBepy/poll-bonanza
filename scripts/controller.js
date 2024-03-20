@@ -75,6 +75,8 @@ function showPlayersToPick(playersToPick) {
     playersToPick,
     onPair
   );
+  fillDataOfAllElementsByClass("gamemode", gamemode.name);
+  fillDataOfAllElementsByClass("topic", currentQuestion.question);
 }
 
 function initUI() {
