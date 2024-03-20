@@ -59,7 +59,7 @@ function addTextAndButtonsToSection(
 ) {
   const container = document.getElementById(sectionId);
   if (!container) throw new Error("Container element not found!");
-  addNewElementToElement("p", container, {
+  addNewElementToElement("h1", container, {
     text: "This text describes the topic",
     className: "topic",
   });

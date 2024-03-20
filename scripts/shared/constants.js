@@ -73,7 +73,7 @@ const SETTINGS = {
       { name: "Red", value: "red" },
       { name: "Blue", value: "blue" },
       { name: "Green", value: "green" },
-      { name: "Yellow", value: "yellow" },
+      { name: "Cyan", value: "yellow" },
     ],
   },
   numOfRounds: {

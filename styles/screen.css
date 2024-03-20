@@ -1,6 +1,9 @@
 button {
   width: 80vw;
-  border-radius: 4px;
+}
+
+button:not(.primary) {
+  border: 4px solid var(--color-bg-light);
 }
 
 #lobby button {
@@ -29,19 +32,23 @@ tr.show-table-value td.col_answer {
   opacity: 1;
 }
 
-.red-pick, tr.red-pick:not(.remove-bg) {
+.red-pick,
+table tr.red-pick:not(.remove-bg) {
   background-color: var(--team-color-red);
 }
 
-.blue-pick, tr.blue-pick:not(.remove-bg) {
+.blue-pick,
+table tr.blue-pick:not(.remove-bg) {
   background-color: var(--team-color-blue);
 }
 
-.green-pick, tr.green-pick:not(.remove-bg) {
+.green-pick,
+table tr.green-pick:not(.remove-bg) {
   background-color: var(--team-color-green);
 }
 
-.yellow-pick, tr.yellow-pick:not(.remove-bg) {
+.yellow-pick,
+table tr.yellow-pick:not(.remove-bg) {
   background-color: var(--team-color-yellow);
 }
 
@@ -49,7 +56,8 @@ tr.show-table-value td.col_answer {
   opacity: 0;
 }
 
-#pairing.show-end .on_end, #pairing.show-end .col_answer {
+#pairing.show-end .on_end,
+#pairing.show-end .col_answer {
   opacity: 1;
 }
 
@@ -103,11 +111,12 @@ tr.show-table-value td.col_answer {
 }
 
 #settings-table {
-  max-width: 500px;
+  max-width: 430px;
 }
 
-#settings-table td:first-child {
-  width: 50%;
+#settings-table td:last-child {
+  width: 35%;
+  text-align: center;
 }
 
 .round_indicator {
