@@ -195,15 +195,21 @@ function updateTableRowToggledUI(device_id, buttonId) {
 function updateActivePlayerUI() {
   const waitingTextElems = document.getElementsByClassName("waiting_text");
 
-  let nick = "";
-  if (choicesToPickById?.length > 0 && activePlayerId) {
-    nick = airConsole.getNickname(activePlayerId);
+  let msg = "";
+  if (
+    (choicesToPickById?.length > 0 ||
+      gamemode.specialRule == "match_to_player") &&
+    activePlayerId
+  ) {
+    const nick = airConsole.getNickname(activePlayerId);
+    msg = `${nick} is picking`;
   } else {
-    nick = airConsole.getNickname(airConsole.getMasterControllerDeviceId());
+    const nick = airConsole.getNickname(
+      airConsole.getMasterControllerDeviceId()
+    );
+    msg = `Waiting for ${nick}`;
   }
-  [...waitingTextElems].forEach(
-    (element) => (element.innerText = `${nick} is picking`)
-  );
+  [...waitingTextElems].forEach((element) => (element.innerText = msg));
 }
 
 function fillSettingsDataUI() {
