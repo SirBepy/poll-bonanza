@@ -167,14 +167,12 @@ let numOfTeamsDidMatchToPlayer = 0;
 function onPairReceiveMatchToPlayer(buttonId) {
   const selectedPlayerId = parseInt(buttonId.split("-")[1]);
   const answers = allPlayersAnswers[selectedPlayerId];
-  const { playerId, picks, team } = playerToGuessFrom;
+  const { playerId, picks } = playerToGuessFrom;
   if (
     selectedPlayerId == playerId ||
     JSON.stringify(answers) === JSON.stringify(picks)
   ) {
     addPointsToTeam();
-    playerToGuessFrom = getPlayerToGuessFrom();
-    initOponentsPicksTableUI(playerToGuessFrom);
   }
 
   numOfTeamsDidMatchToPlayer++;
@@ -182,6 +180,8 @@ function onPairReceiveMatchToPlayer(buttonId) {
     onRoundDone();
   } else {
     assignActivePlayer();
+    playerToGuessFrom = getPlayerToGuessFrom();
+    initOponentsPicksTableUI();
   }
 }
 
@@ -318,7 +318,7 @@ function getAvailableQuestions(alreadyLooped) {
 
   if (filteredQuestions.length > 0) return filteredQuestions;
 
-  const lastQuestion = prevDoneQuestions[prevDoneQuestions.length - 1]
+  const lastQuestion = prevDoneQuestions[prevDoneQuestions.length - 1];
   clearPrevQuestions();
   addPrevQuestion(lastQuestion);
 
@@ -401,7 +401,7 @@ function onQuestionsFinished() {
 
   if (gamemode.usesOponentsAnswers) {
     playerToGuessFrom = getPlayerToGuessFrom();
-    initOponentsPicksTableUI(playerToGuessFrom);
+    initOponentsPicksTableUI();
   } else {
     const orderedAnswers = getCalculatedAnswers();
     initBasicPicksTableUI(orderedAnswers);

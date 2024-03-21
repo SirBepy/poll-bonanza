@@ -54,15 +54,15 @@ function getResetedTableUI(addPoints) {
   tableElement.innerHTML = `<thead>
       <tr class="header">
         <th class="${TD_CLASS_POSITION}">#</th>
-        ${addPoints ? `<th class="${TD_CLASS_POINTS}">Points</th>` : ''}
+        ${addPoints ? `<th class="${TD_CLASS_POINTS}">Points</th>` : ""}
         <th class="${TD_CLASS_ANSWER}">Answer</th>
       </tr>
     </thead>`;
-  return addNewElementToElement('tbody', tableElement);
+  return addNewElementToElement("tbody", tableElement);
 }
 
-function initOponentsPicksTableUI(playerToGuessFrom) {
-  const { team, playerId, picks } = playerToGuessFrom;
+function initOponentsPicksTableUI() {
+  const { picks } = playerToGuessFrom;
 
   const tableElement = getResetedTableUI();
 
