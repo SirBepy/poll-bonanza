@@ -1,6 +1,10 @@
 function updateIsActivePlayerClass(player_id) {
   const pairingElem = document.getElementById("pairing");
+ 
   if (airConsole.device_id == player_id) {
+    if (currentScreen != PAGES.waitForPlayers) {
+      temporarilyAddClass(pairingElem, "isShowingResult", 7000);
+    }
     pairingElem.classList.add("isActivePlayer");
   } else {
     pairingElem.classList.remove("isActivePlayer");

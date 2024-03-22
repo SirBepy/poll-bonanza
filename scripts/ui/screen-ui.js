@@ -263,3 +263,22 @@ function fillEndOfGameUI(teamPointsSorted) {
       team.points;
   });
 }
+
+function showWasCorrectAnimation(optionText, wasCorrect, callback) {
+  const sectionElem = document.getElementById("is-correct-modal");
+  const timeout = 5000;
+  temporarilyAddClass(sectionElem, "show", timeout);
+  setTimeout(callback, timeout);
+
+  document.getElementById("is-correct-nick").innerText =
+    airConsole.getNickname(activePlayerId);
+  document.getElementById("is-correct-option").innerText = optionText;
+  const isCorrectResultElem = document.getElementById("is-correct-result");
+  if (wasCorrect) {
+    isCorrectResultElem.innerText = "Correct!";
+    isCorrectResultElem.style.color = "var(--color-success)";
+  } else {
+    isCorrectResultElem.innerText = "Wrong!";
+    isCorrectResultElem.style.color = "var(--color-fail)";
+  }
+}

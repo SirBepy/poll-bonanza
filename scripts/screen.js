@@ -157,32 +157,33 @@ function isRoundDone() {
   );
 }
 
-function onRoundDone() {
-  airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
-  updateEndUI(true);
-}
-
 let numOfTeamsDidMatchToPlayer = 0;
 
 function onPairReceiveMatchToPlayer(buttonId) {
   const selectedPlayerId = parseInt(buttonId.split("-")[1]);
   const answers = allPlayersAnswers[selectedPlayerId];
   const { playerId, picks } = playerToGuessFrom;
-  if (
-    selectedPlayerId == playerId ||
-    JSON.stringify(answers) === JSON.stringify(picks)
-  ) {
-    addPointsToTeam();
-  }
 
-  numOfTeamsDidMatchToPlayer++;
-  if (numOfTeamsDidMatchToPlayer >= Object.keys(teams).length) {
-    onRoundDone();
-  } else {
-    assignActivePlayer();
-    playerToGuessFrom = getPlayerToGuessFrom();
-    initOponentsPicksTableUI();
-  }
+  const wasCorrect =
+    selectedPlayerId == playerId ||
+    JSON.stringify(answers) === JSON.stringify(picks);
+
+  showWasCorrectAnimation(airConsole.getNickname(playerId), wasCorrect);
+
+  setTimeout(() => {
+    if (wasCorrect) {
+      addPointsToTeam();
+    }
+    numOfTeamsDidMatchToPlayer++;
+    const isDone = numOfTeamsDidMatchToPlayer >= Object.keys(teams).length;
+    if (isDone) {
+      airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
+    } else {
+      assignActivePlayer();
+      playerToGuessFrom = getPlayerToGuessFrom();
+      initOponentsPicksTableUI();
+    }
+  }, 250);
 }
 
 function onPairReceive(device_id, buttonId) {
@@ -190,6 +191,7 @@ function onPairReceive(device_id, buttonId) {
     throw new Error("Somehow wrong id tried pairing");
   if (!Object.values(teams).some((team) => team.includes(device_id)))
     throw new Error("Player doesnt have team when pairing");
+  const buttonIdNum = parseInt(buttonId.split("-")[1]);
 
   numberOfTimesAPlayerWent[device_id] =
     (numberOfTimesAPlayerWent[device_id] ?? 0) + 1;
@@ -200,28 +202,46 @@ function onPairReceive(device_id, buttonId) {
   }
 
   const index = choicesToPickById.findIndex((choice) => choice.id == buttonId);
+  const choice = currentQuestion.answers[buttonIdNum - 1];
 
   if (gamemode.ordered) {
-    if (index == -1) return assignActivePlayer();
+    if (index == -1) {
+      showWasCorrectAnimation(choice, false);
+      assignActivePlayer();
+      return;
+    }
     const firstMostFreePosition = getFirstOrderedFreePosition();
     const didPickFirstPossibleChoice =
       choicesToPickById[index]?.position == firstMostFreePosition;
-    if (!didPickFirstPossibleChoice) return assignActivePlayer();
+
+    if (!didPickFirstPossibleChoice) {
+      showWasCorrectAnimation(choice, false);
+      assignActivePlayer();
+      return;
+    }
   }
 
-  updateTableRowToggledUI(device_id, buttonId);
   unavailableAnswers.push(buttonId);
   highlightChoices();
 
-  if (index > -1) {
-    choicesToPickById.splice(index, 1);
-    addPointsToTeam();
-  }
-  if (isRoundDone()) {
-    onRoundDone();
-  } else {
-    assignActivePlayer();
-  }
+  const wasCorrect = index > -1;
+  let isDone = false;
+  showWasCorrectAnimation(choice, wasCorrect, () => {
+    updateTableRowToggledUI(device_id, buttonId);
+    if (isDone) updateEndUI(true);
+  });
+  setTimeout(() => {
+    if (wasCorrect) {
+      choicesToPickById.splice(index, 1);
+      addPointsToTeam();
+    }
+    isDone = isRoundDone();
+    if (isDone) {
+      airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
+    } else {
+      assignActivePlayer();
+    }
+  }, 250);
 }
 
 function getFirstOrderedFreePosition() {
@@ -396,8 +416,8 @@ function highlightChoices() {
 }
 
 function onQuestionsFinished() {
-  setNewScreen(PAGES.pairing);
   assignActivePlayer();
+  setNewScreen(PAGES.pairing);
 
   if (gamemode.usesOponentsAnswers) {
     playerToGuessFrom = getPlayerToGuessFrom();
@@ -410,8 +430,6 @@ function onQuestionsFinished() {
 }
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
-
-// TODO-GENERAL: Dramatic reveal if the answer is right or wrong
 
 // TODO-FUTURE: "Are you sure" button on bottom
 // TODO-FUTURE: Add extra points for the first team to pick exactly one position

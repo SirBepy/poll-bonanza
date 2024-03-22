@@ -27,6 +27,14 @@
     <script src="scripts/ui/screen-ui.js"></script>
   </head>
   <body onload="init()">
+    <div id="is-correct-modal" class="outer-modal-wrapper">
+      <div class="inner-modal-wrapper">
+        <h3><span id="is-correct-nick"></span> chose</h3>
+        <h2 id="is-correct-option">Option</h2>
+        <h3 class="suspense">and that is...</h3>
+        <h1 id="is-correct-result">Correct!</h1>
+      </div>
+    </div>
     <section id="lobby">
       <h1>Poll Bonanza!</h1>
       <table id="settings-table" class="simple-table"></table>

@@ -40,7 +40,7 @@ const GAMEMODES = {
   // },
   who_does_this_belong_to: {
     name: "Guess who the list belongs to",
-    allowedChoices: 3,
+    allowedChoices: 1,
     specialRule: "match_to_player",
     usesOponentsAnswers: true,
   },

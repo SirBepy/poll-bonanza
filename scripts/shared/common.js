@@ -59,7 +59,7 @@ function addTextAndButtonsToSection(
 ) {
   const container = document.getElementById(sectionId);
   if (!container) throw new Error("Container element not found!");
-  addNewElementToElement("h1", container, {
+  addNewElementToElement("h2", container, {
     text: "This text describes the topic",
     className: "topic",
   });
@@ -67,7 +67,7 @@ function addTextAndButtonsToSection(
     text: "This text describes the gamemode",
     className: "gamemode",
   });
-  
+
   options.forEach((option) => {
     const btnElem = addNewElementToElement("button", container, {
       id: `${btnIdPrefix}-${option}`,
@@ -94,4 +94,10 @@ function fillData() {
   for (let i = 1; i <= currentQuestion.answers.length; i++) {
     fillDataOfAllElementsByClass(`answer-${i}`, currentQuestion.answers[i - 1]);
   }
+}
+
+function temporarilyAddClass(elem, cssClass, time = 1000) {
+  elem?.classList.add(cssClass);
+
+  setTimeout(() => elem?.classList.remove(cssClass), time);
 }
