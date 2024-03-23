@@ -101,7 +101,7 @@ const SETTINGS = {
   },
 };
 
-const FILES_TO_LOOK_FOR = ["Misc", "Movies and Shows", "Music"];
+const FILES_TO_LOOK_FOR = ["Misc", "Movies and Shows", "Music", "Everyday Life", "Ideal World", "Powers and Magic"];
 
 const DEFAULT_SETTINGS = {
   teams: ["red", "blue"],
