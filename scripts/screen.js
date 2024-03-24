@@ -431,6 +431,16 @@ function onQuestionsFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 
+// TODO-FIX: "You win" issue
+// TODO-FIX: Icons not working
+// TODO-FIX: First player is always master
+// TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
+// TODO-FIX: Show everyone the options
+// TODO-FIX: Leaving not working properly
+// TODO-FIX: Idina didnt like the oval button number thing
+// TODO-FIX: Idina couldnt see the numbers in the table
+
+// TODO-FUTURE: Add sounds
 // TODO-FUTURE: "Are you sure" button on bottom
 // TODO-FUTURE: Add extra points for the first team to pick exactly one position
 // TODO-FUTURE: Just like for faking-it, a player should be able to chose the next gamemode
