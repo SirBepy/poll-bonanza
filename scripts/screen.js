@@ -441,7 +441,6 @@ function onQuestionsFinished() {
 // TODO-FIX: Show everyone the options
 // TODO-FIX: Leaving not working properly
 // TODO-FIX: Idina couldnt see the numbers in the table
-// TODO-FIX: Show how many picks you need to chose
 
 // TODO-FUTURE: Add sounds
 // TODO-FUTURE: "Are you sure" button on bottom
