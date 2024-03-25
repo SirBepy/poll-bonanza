@@ -440,7 +440,6 @@ function onQuestionsFinished() {
 // TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
 // TODO-FIX: Show everyone the options
 // TODO-FIX: Leaving not working properly
-// TODO-FIX: Idina didnt like the oval button number thing
 // TODO-FIX: Idina couldnt see the numbers in the table
 // TODO-FIX: Show how many picks you need to chose
 

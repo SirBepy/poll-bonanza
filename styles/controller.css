@@ -39,13 +39,13 @@ h1 {
 
 .answer span {
   display: block;
-  width: 2em;
-  height: 2em;
+  width: 2.2em;
+  height: 2.2em;
   padding: 0.45em 0.6em;
 
   position: absolute;
   top: 50%;
-  right: -8px;
+  right: -1px;
   transform: translateY(-50%);
   border-radius: 50%;
 
@@ -55,7 +55,7 @@ h1 {
 
 .answer:has(span),
 button.toggled {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-opaque);
 }
 
 .stick-to-bottom-with-card-bg {
