@@ -84,6 +84,8 @@ function onConnect(device_id) {
 function onDisconnect(device_id) {
   if (activePlayerId == device_id) assignActivePlayer(true);
 
+  delete playersWishingToReroll[device_id]
+  delete allPlayersAnswers[device_id]
   updatePlayerCounter();
   removePlayerFromTeam(device_id);
   airConsole.setCustomDeviceStateProperty("teams", teams);
@@ -439,7 +441,6 @@ function onQuestionsFinished() {
 // TODO-FIX: First player is always master
 // TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
 // TODO-FIX: Show everyone the options
-// TODO-FIX: Leaving not working properly
 // TODO-FIX: Idina couldnt see the numbers in the table
 
 // TODO-FUTURE: Add sounds
