@@ -382,15 +382,7 @@ function onNewRound(isReroll) {
   if (!isReroll) {
     currentRound++;
     updateRoundUI();
-    if (currentRound > parseInt(gameSettings.numOfRounds?.[0])) {
-      const teamPointsSorted = getSortedTeamPoints();
-      fillEndOfGameUI(teamPointsSorted);
-      setNewScreen(PAGES.endOfGame);
-
-      points = {};
-      currentRound = 0;
-      return;
-    }
+    if (endGame()) return;
   }
 
   const gamemodeKey = getRandomGamemode();
@@ -407,6 +399,19 @@ function onNewRound(isReroll) {
     gamemodeKey,
     teams,
   });
+}
+
+function endGame() {
+  const shouldEndGame = currentRound > parseInt(gameSettings.numOfRounds?.[0]);
+  if (!shouldEndGame) return false;
+  const teamPointsSorted = getSortedTeamPoints();
+  fillEndOfGameUI(teamPointsSorted);
+  airConsole.setCustomDeviceStateProperty("teamPointsSorted", teamPointsSorted);
+  setNewScreen(PAGES.endOfGame);
+
+  points = {};
+  currentRound = 0;
+  return true;
 }
 
 function highlightChoices() {
@@ -431,7 +436,6 @@ function onQuestionsFinished() {
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 
-// TODO-FIX: "You win" issue
 // TODO-FIX: Icons not working
 // TODO-FIX: First player is always master
 // TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
@@ -439,6 +443,7 @@ function onQuestionsFinished() {
 // TODO-FIX: Leaving not working properly
 // TODO-FIX: Idina didnt like the oval button number thing
 // TODO-FIX: Idina couldnt see the numbers in the table
+// TODO-FIX: Show how many picks you need to chose
 
 // TODO-FUTURE: Add sounds
 // TODO-FUTURE: "Are you sure" button on bottom

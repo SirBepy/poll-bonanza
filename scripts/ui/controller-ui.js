@@ -1,6 +1,6 @@
 function updateIsActivePlayerClass(player_id) {
   const pairingElem = document.getElementById("pairing");
- 
+
   if (airConsole.device_id == player_id) {
     if (currentScreen != PAGES.waitForPlayers) {
       temporarilyAddClass(pairingElem, "isShowingResult", 7000);
@@ -166,4 +166,18 @@ function updateGamemodeClass() {
   } else {
     pairingSectionElem.classList.remove("match_to_player");
   }
+}
+
+function updateYouWinLoseTextUI(teamPointsSorted) {
+  const playersTeamPoints = teamPointsSorted.find(
+    (team) => team.teamKey === currentTeam
+  );
+  const didWin = playersTeamPoints.position == 1;
+  const textElem = document
+    .getElementById("endOfGame")
+    .getElementsByTagName("h1")?.[0];
+
+  if (!textElem) return console.error("Couldnt find h1 elem");
+
+  textElem.innerText = `You ${didWin ? "win" : "lose"}!`;
 }

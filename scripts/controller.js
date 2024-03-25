@@ -1,34 +1,15 @@
 let isRerolling = false;
 
+let teamName;
 let airConsole;
 let isPaused;
 
 // Init functionality
 function onCustomDeviceStateChange(sender_id, data) {
   if (data.activePlayer) updateIsActivePlayerClass(data.activePlayer);
-  if (data.teams) {
-    updateTeamClass(data.teams);
-    checkIfTeamsAreSafe(data.teams);
-    disableUnusedTeams(data.teams);
-  }
-  if (data.screen) {
-    const newScreenIsSettings = [
-      PAGES.allSettings,
-      PAGES.settingsDetail,
-    ].includes(currentScreen);
-
-    const isWaitingForPlayers = currentScreen == PAGES.waitForPlayers;
-    const isBringingBackToQuestions = isWaitingForPlayers
-      ? data.screen == PAGES.questions
-      : false;
-
-    if (
-      (!newScreenIsSettings || !getIsMaster()) &&
-      !isBringingBackToQuestions
-    ) {
-      displayScreen(data.screen);
-    }
-  }
+  if (data.teams) onTeamUpdate(data.teams);
+  if (data.teamPointsSorted) updateYouWinLoseTextUI(data.teamPointsSorted);
+  if (data.screen) onNewScreen(data.screen);
 
   if (
     !data.gamemodeKey ||
@@ -45,6 +26,31 @@ function onCustomDeviceStateChange(sender_id, data) {
   resetReroll();
   fillData();
   updateSubmitButtonUI();
+}
+
+function onTeamUpdate(teams) {
+  SETTINGS.teams.options.forEach(({ value: teamName }) => {
+    if (teams[teamName]?.includes(airConsole.device_id)) currentTeam = teamName;
+  });
+  updateTeamClass(teams);
+  checkIfTeamsAreSafe(teams);
+  disableUnusedTeams(teams);
+}
+
+function onNewScreen(screen) {
+  const newScreenIsSettings = [
+    PAGES.allSettings,
+    PAGES.settingsDetail,
+  ].includes(currentScreen);
+
+  const isWaitingForPlayers = currentScreen == PAGES.waitForPlayers;
+  const isBringingBackToQuestions = isWaitingForPlayers
+    ? screen == PAGES.questions
+    : false;
+
+  if ((!newScreenIsSettings || !getIsMaster()) && !isBringingBackToQuestions) {
+    displayScreen(screen);
+  }
 }
 
 function checkIfTeamsAreSafe(teams) {
