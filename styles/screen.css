@@ -218,14 +218,17 @@ table tr.yellow-pick:not(.remove-bg) {
   display: block;
   position: absolute;
 
-  width: 16px;
-  height: 16px;
-  font-size: 12px;
+  width: 21px;
+  height: 21px;
+  font-size: 0.8em;
   text-align: center;
-  padding-top: 1.5px;
+  padding-top: 1px;
+  padding-right: 0.5px;
   bottom: 1px;
-  left: -5px;
+  left: -8px;
   border-radius: 50%;
+  font-weight: bold;
+  background-color: var(--color-bg-light);
 }
 
 .outer-modal-wrapper {

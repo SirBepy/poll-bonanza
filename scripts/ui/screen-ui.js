@@ -110,14 +110,7 @@ function initBasicPicksTableUI(orderedAnswers) {
     });
     row.players.forEach(({ playerId, position }) => {
       const playerElem = addNewElementToElement("div", imgsWrapperElem);
-      const [teamName] = Object.entries(teams).find(([_, team]) =>
-        team.includes(parseInt(playerId))
-      );
-
-      addNewElementToElement("span", playerElem, {
-        text: position,
-        className: `${teamName}-pick`,
-      });
+      addNewElementToElement("span", playerElem, { text: position });
       addNewElementToElement("img", playerElem).src =
         airConsole.getProfilePicture(airConsole.getUID(playerId), 32);
     });

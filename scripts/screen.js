@@ -441,7 +441,6 @@ function onQuestionsFinished() {
 // TODO-FIX: First player is always master
 // TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
 // TODO-FIX: Show everyone the options
-// TODO-FIX: Idina couldnt see the numbers in the table
 
 // TODO-FUTURE: Add sounds
 // TODO-FUTURE: "Are you sure" button on bottom
