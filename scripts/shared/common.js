@@ -55,7 +55,8 @@ function addTextAndButtonsToSection(
   sectionId,
   btnIdPrefix,
   options,
-  onBtnClick
+  onBtnClick,
+  onBottomBtnClick
 ) {
   const container = document.getElementById(sectionId);
   if (!container) throw new Error("Container element not found!");
@@ -73,18 +74,24 @@ function addTextAndButtonsToSection(
       id: `${btnIdPrefix}-${option}`,
       className: `answer answer-${option}`,
       onClick: function () {
-        onBtnClick(this);
+        onBtnClick(this, `${sectionId}-submit`);
       },
     });
     if (gamemode.specialRule == "match_to_player") {
       btnElem.innerText = airConsole.getNickname(option);
     }
   });
+  if (onBottomBtnClick) {
+    addBottomButtonWithCard(container, sectionId, onBottomBtnClick);
+  }
 }
 
-function fillDataOfAllElementsByClass(className, text) {
+function fillDataOfAllElementsByClass(className, text, classToRemove) {
   const topicElements = document.getElementsByClassName(className);
-  [...topicElements].forEach((element) => (element.innerText = text));
+  [...topicElements].forEach((element) => {
+    element.innerText = text;
+    element.classList.remove(classToRemove);
+  });
 }
 
 function fillData() {
@@ -92,7 +99,11 @@ function fillData() {
   fillDataOfAllElementsByClass("topic", currentQuestion.question);
 
   for (let i = 1; i <= currentQuestion.answers.length; i++) {
-    fillDataOfAllElementsByClass(`answer-${i}`, currentQuestion.answers[i - 1]);
+    fillDataOfAllElementsByClass(
+      `answer-${i}`,
+      currentQuestion.answers[i - 1],
+      "toggled"
+    );
   }
 }
 
@@ -100,4 +111,17 @@ function temporarilyAddClass(elem, cssClass, time = 1000) {
   elem?.classList.add(cssClass);
 
   setTimeout(() => elem?.classList.remove(cssClass), time);
+}
+
+function addBottomButtonWithCard(parentElem, id, onClick) {
+  const wrapper = addNewElementToElement("div", parentElem, {
+    className: "stick-to-bottom-with-card-bg",
+  });
+  const bottomBtnId = `${id}-submit`;
+  addNewElementToElement("button", wrapper, {
+    className: "primary",
+    text: "Submit",
+    id: bottomBtnId,
+    onClick,
+  });
 }

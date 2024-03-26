@@ -22,16 +22,19 @@ function updateIsMasterClass() {
   }
 }
 
-function updateSubmitButtonUI() {
-  const submitButton = document.getElementById("submit-answers");
-  if (Object.keys(choices).length == gamemode.allowedChoices) {
+function updateSubmitButtonUI(id, allowedChoices = gamemode?.allowedChoices) {
+  const submitButton = document.getElementById(id);
+  if (Object.keys(choices).length == allowedChoices) {
     submitButton.disabled = false;
     submitButton.innerText = "Submit";
   } else {
     submitButton.disabled = true;
-    submitButton.innerText = `${
-      gamemode?.allowedChoices - Object.keys(choices).length
-    } Choices left to pick`;
+    submitButton.innerText =
+      allowedChoices == 1
+        ? "Pick one option"
+        : `${
+            allowedChoices - Object.keys(choices).length
+          } Choices left to pick`;
   }
 }
 

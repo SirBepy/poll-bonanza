@@ -263,6 +263,7 @@ table tr.yellow-pick:not(.remove-bg) {
   align-items: center;
   justify-content: center;
   border-radius: 60px;
+  padding: 1em;
 }
 
 .outer-modal-wrapper h3,

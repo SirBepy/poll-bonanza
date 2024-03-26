@@ -25,7 +25,7 @@ function onCustomDeviceStateChange(sender_id, data) {
   choices = {};
   resetReroll();
   fillData();
-  updateSubmitButtonUI();
+  updateSubmitButtonUI("questions-submit");
 }
 
 function onTeamUpdate(teams) {
@@ -79,6 +79,7 @@ function showPlayersToPick(playersToPick) {
     "pairing-players",
     "playersanswer",
     playersToPick,
+    toggleChoiceAnswer,
     onPair
   );
   fillDataOfAllElementsByClass("gamemode", gamemode.name);
@@ -87,8 +88,20 @@ function showPlayersToPick(playersToPick) {
 
 function initUI() {
   const btnIds = [...Array(NUM_OF_CHOICES_PER_QUESTION).keys()].map((i) => ++i);
-  addTextAndButtonsToSection("questions", "answer", btnIds, toggleAnswer);
-  addTextAndButtonsToSection("pairing-normal", "tableanswer", btnIds, onPair);
+  addTextAndButtonsToSection(
+    "questions",
+    "answer",
+    btnIds,
+    toggleQuestionAnswer,
+    onSubmitQuestions
+  );
+  addTextAndButtonsToSection(
+    "pairing-normal",
+    "tableanswer",
+    btnIds,
+    toggleChoiceAnswer,
+    onPair
+  );
   fillAllSettingsUI();
   initTeamsTogglerUI();
 }
@@ -118,28 +131,45 @@ function startGame() {
 
 let choices = {};
 
-function toggleAnswer(button) {
-  const span = button.querySelector("span");
+function toggleChoiceAnswer(button, id) {
+  if (button.classList.contains("toggled")) {
+    button.classList.remove("toggled");
+    delete choices.choice;
+  } else {
+    button.classList.add("toggled");
+    if (choices.choice) {
+      document.getElementById(choices.choice).classList.remove("toggled");
+    }
+    choices.choice = button.id;
+  }
 
-  if (span) {
-    button.removeChild(span);
+  updateSubmitButtonUI(id, 1);
+}
+
+function toggleQuestionAnswer(button) {
+  if (button.classList.contains("toggled")) {
+    button.classList.remove("toggled");
+    const span = button.querySelector("span");
+    if (span) button.removeChild(span);
     const number = parseInt(span.textContent);
     delete choices[number];
   } else {
     if (Object.keys(choices).length < gamemode.allowedChoices) {
       const availableNumber = getAvailableNumber();
       if (availableNumber !== null) {
+        button.classList.add("toggled");
         addNewElementToElement("span", button, { text: availableNumber });
         choices[availableNumber] = button.id;
       }
     }
   }
 
-  updateSubmitButtonUI();
+  updateSubmitButtonUI("questions-submit");
 }
 
 function onPair(button) {
-  sendScreenEvent({ pair: button.id });
+  sendScreenEvent({ pair: choices.choice });
+  choices = {};
 }
 
 function getAvailableNumber() {
@@ -148,9 +178,10 @@ function getAvailableNumber() {
   }
 }
 
-function onSubmit() {
+function onSubmitQuestions() {
   displayScreen(PAGES.waitForPlayers);
   sendScreenEvent({ answers: choices });
+  choices = {};
 }
 
 function resetReroll() {

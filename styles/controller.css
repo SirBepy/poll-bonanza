@@ -53,7 +53,7 @@ h1 {
   border: 1px solid var(--color-primary);
 }
 
-.answer:has(span),
+.answer.toggled,
 button.toggled {
   background-color: var(--color-primary-opaque);
 }
