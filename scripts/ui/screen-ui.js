@@ -261,7 +261,12 @@ function fillEndOfGameUI(teamPointsSorted) {
   });
 }
 
-function showWasCorrectAnimation(optionText, wasCorrect, callback) {
+function showWasCorrectAnimation(
+  optionText,
+  wasCorrect,
+  callback,
+  rightOptionText
+) {
   const sectionElem = document.getElementById("is-correct-modal");
   const timeout = 5000;
   temporarilyAddClass(sectionElem, "show", timeout);
@@ -271,11 +276,16 @@ function showWasCorrectAnimation(optionText, wasCorrect, callback) {
     airConsole.getNickname(activePlayerId);
   document.getElementById("is-correct-option").innerText = optionText;
   const isCorrectResultElem = document.getElementById("is-correct-result");
+  const whatWasCorrectElem = document.getElementById("what-was-correct");
   if (wasCorrect) {
     isCorrectResultElem.innerText = "Correct!";
+    whatWasCorrectElem.innerText = ``;
     isCorrectResultElem.style.color = "var(--color-success)";
   } else {
-    isCorrectResultElem.innerText = "Wrong!";
+    isCorrectResultElem.innerText = `Wrong!`;
+    if (rightOptionText) {
+      whatWasCorrectElem.innerText = `It was ${rightOptionText}`;
+    }
     isCorrectResultElem.style.color = "var(--color-fail)";
   }
 }

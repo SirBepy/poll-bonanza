@@ -173,6 +173,8 @@ function onPairReceiveMatchToPlayer(buttonId) {
   showWasCorrectAnimation(
     airConsole.getNickname(selectedPlayerId),
     wasCorrect,
+    null,
+    airConsole.getNickname(playerId)
   );
 
   setTimeout(() => {

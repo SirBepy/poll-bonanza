@@ -268,7 +268,8 @@ table tr.yellow-pick:not(.remove-bg) {
 
 .outer-modal-wrapper h3,
 .outer-modal-wrapper h2,
-.outer-modal-wrapper h1 {
+.outer-modal-wrapper h1,
+.outer-modal-wrapper p {
   opacity: 0;
   transition: 0.3s;
 }
@@ -278,7 +279,8 @@ table tr.yellow-pick:not(.remove-bg) {
 }
 
 .outer-modal-wrapper.show h2,
-.outer-modal-wrapper.show h1 {
+.outer-modal-wrapper.show h1, 
+.outer-modal-wrapper.show p {
   opacity: 1;
 }
 
@@ -297,7 +299,8 @@ table tr.yellow-pick:not(.remove-bg) {
   padding-bottom: 0.8em;
 }
 
-.outer-modal-wrapper.show > div > *:nth-child(4) {
+.outer-modal-wrapper.show > div > *:nth-child(4),
+.outer-modal-wrapper.show > div > *:nth-child(5) {
   padding-bottom: 0.4em;
   padding-bottom: 0.4em;
   transition-delay: 3.5s;
