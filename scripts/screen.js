@@ -84,8 +84,8 @@ function onConnect(device_id) {
 function onDisconnect(device_id) {
   if (activePlayerId == device_id) assignActivePlayer(true);
 
-  delete playersWishingToReroll[device_id]
-  delete allPlayersAnswers[device_id]
+  delete playersWishingToReroll[device_id];
+  delete allPlayersAnswers[device_id];
   updatePlayerCounter();
   removePlayerFromTeam(device_id);
   airConsole.setCustomDeviceStateProperty("teams", teams);
@@ -170,7 +170,10 @@ function onPairReceiveMatchToPlayer(buttonId) {
     selectedPlayerId == playerId ||
     JSON.stringify(answers) === JSON.stringify(picks);
 
-  showWasCorrectAnimation(airConsole.getNickname(playerId), wasCorrect);
+  showWasCorrectAnimation(
+    airConsole.getNickname(selectedPlayerId),
+    wasCorrect,
+  );
 
   setTimeout(() => {
     if (wasCorrect) {
