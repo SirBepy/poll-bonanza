@@ -70,15 +70,18 @@ function addTextAndButtonsToSection(
   });
 
   options.forEach((option) => {
+    let id = option;
+    if (gamemode.hasToDestructureOption) id = option.id;
+
     const btnElem = addNewElementToElement("button", container, {
-      id: `${btnIdPrefix}-${option}`,
-      className: `answer answer-${option}`,
+      id: `${btnIdPrefix}-${id}`,
+      className: `answer answer-${id}`,
       onClick: function () {
         onBtnClick(this, `${sectionId}-submit`);
       },
     });
-    if (gamemode.specialRule == "match_to_player") {
-      btnElem.innerText = airConsole.getNickname(option);
+    if (gamemode.hasToDestructureOption) {
+      btnElem.innerText = option.text;
     }
   });
   if (onBottomBtnClick) {
