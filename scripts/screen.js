@@ -444,7 +444,6 @@ function onQuestionsFinished() {
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
 
 // TODO-FIX: First player is always master
-// TODO-FIX: Sometimes it says "x chose y", but in reality it should be "x chose z"
 // TODO-FIX: Show everyone the options
 
 // TODO-FUTURE: Add sounds
