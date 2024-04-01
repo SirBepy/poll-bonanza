@@ -161,6 +161,23 @@ function isRoundDone() {
 
 let numOfTeamsDidMatchToPlayer = 0;
 
+function updateUnavailableAnswers() {
+  if (gamemode.specialRule == "match_to_player") {
+    const { teamPlayers } = getNextTeam();
+    airConsole.setCustomDeviceStateProperty(
+      "playersToPick",
+      teamPlayers
+        .filter((playerId) => !!allPlayersAnswers[playerId])
+        .map((id) => ({ id, text: airConsole.getNickname(id) }))
+    );
+  } else {
+    airConsole.setCustomDeviceStateProperty(
+      "unavailableAnswers",
+      unavailableAnswers
+    );
+  }
+}
+
 function onPairReceiveMatchToPlayer(buttonId) {
   const selectedPlayerId = parseInt(buttonId.split("-")[1]);
   const answers = allPlayersAnswers[selectedPlayerId];
@@ -187,6 +204,7 @@ function onPairReceiveMatchToPlayer(buttonId) {
       airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
     } else {
       assignActivePlayer();
+      updateUnavailableAnswers();
       playerToGuessFrom = getPlayerToGuessFrom();
       initOponentsPicksTableUI();
     }
@@ -215,6 +233,7 @@ function onPairReceive(device_id, buttonId) {
     if (index == -1) {
       showWasCorrectAnimation(choice, false);
       assignActivePlayer();
+      updateUnavailableAnswers();
       return;
     }
     const firstMostFreePosition = getFirstOrderedFreePosition();
@@ -224,6 +243,7 @@ function onPairReceive(device_id, buttonId) {
     if (!didPickFirstPossibleChoice) {
       showWasCorrectAnimation(choice, false);
       assignActivePlayer();
+      updateUnavailableAnswers();
       return;
     }
   }
@@ -247,6 +267,7 @@ function onPairReceive(device_id, buttonId) {
       airConsole.setCustomDeviceStateProperty("screen", PAGES.waitForNextRound);
     } else {
       assignActivePlayer();
+      updateUnavailableAnswers();
     }
   }, 250);
 }
@@ -429,6 +450,7 @@ function highlightChoices() {
 
 function onQuestionsFinished() {
   assignActivePlayer();
+  updateUnavailableAnswers();
   setNewScreen(PAGES.pairing);
 
   if (gamemode.usesOponentsAnswers) {

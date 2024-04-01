@@ -10,6 +10,11 @@ function onCustomDeviceStateChange(sender_id, data) {
   if (data.teams) onTeamUpdate(data.teams);
   if (data.teamPointsSorted) updateYouWinLoseTextUI(data.teamPointsSorted);
   if (data.screen) onNewScreen(data.screen);
+  if (data.unavailableAnswers) {
+    updateSubmitButtonUI("pairing-normal-submit");
+    hideAnswersUI(data.unavailableAnswers);
+  }
+  if (data.playersToPick) showPlayersToPick(data.playersToPick);
 
   if (
     !data.gamemodeKey ||
@@ -66,11 +71,6 @@ function checkIfTeamsAreSafe(teams) {
 }
 
 function onMessage(device_id, data) {
-  if (data.unavailableAnswers) {
-    updateSubmitButtonUI("pairing-normal-submit");
-    hideAnswersUI(data.unavailableAnswers);
-  }
-  if (data.playersToPick) showPlayersToPick(data.playersToPick);
   if (data.gameSettings) gameSettings = data.gameSettings;
   if (data.categories) SETTINGS.categories.options = data.categories;
 }

@@ -63,16 +63,6 @@ function assignActivePlayer(didPlayerLeave) {
   }
 
   activePlayerId = teams[currentTeam][whoIsActive[currentTeam]];
-  if (gamemode.specialRule == "match_to_player") {
-    const { teamPlayers } = getNextTeam();
-    airConsole.message(activePlayerId, {
-      playersToPick: teamPlayers
-        .filter((playerId) => !!allPlayersAnswers[playerId])
-        .map((id) => ({ id, text: airConsole.getNickname(id) })),
-    });
-  } else {
-    airConsole.message(activePlayerId, { unavailableAnswers });
-  }
   airConsole.setCustomDeviceStateProperty("activePlayer", activePlayerId);
   updateActivePlayerUI();
 }

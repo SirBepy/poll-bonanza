@@ -142,8 +142,13 @@ button.stick-to-bottom {
 }
 
 #pairing.isActivePlayer .waiting_text,
-#pairing:not(.isActivePlayer) > *:not(.waiting_text) {
+#pairing:not(.isActivePlayer) .stick-to-bottom-with-card-bg {
   display: none;
+}
+
+#pairing:not(.isActivePlayer) > *:not(.waiting_text) button {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 #setting-options {
