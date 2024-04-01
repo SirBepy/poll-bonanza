@@ -127,4 +127,5 @@ function addBottomButtonWithCard(parentElem, id, onClick) {
     id: bottomBtnId,
     onClick,
   });
+  updateSubmitButtonUI(bottomBtnId)
 }

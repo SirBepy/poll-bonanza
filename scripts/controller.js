@@ -66,7 +66,10 @@ function checkIfTeamsAreSafe(teams) {
 }
 
 function onMessage(device_id, data) {
-  if (data.unavailableAnswers) hideAnswersUI(data.unavailableAnswers);
+  if (data.unavailableAnswers) {
+    updateSubmitButtonUI("pairing-normal-submit");
+    hideAnswersUI(data.unavailableAnswers);
+  }
   if (data.playersToPick) showPlayersToPick(data.playersToPick);
   if (data.gameSettings) gameSettings = data.gameSettings;
   if (data.categories) SETTINGS.categories.options = data.categories;

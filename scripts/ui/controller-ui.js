@@ -24,7 +24,11 @@ function updateIsMasterClass() {
 
 function updateSubmitButtonUI(id, allowedChoices = gamemode?.allowedChoices) {
   const submitButton = document.getElementById(id);
-  if (Object.keys(choices).length == allowedChoices) {
+  const numOfChoices = Object.keys(choices).length;
+  if (id.startsWith("pairing-") || !allowedChoices) {
+    allowedChoices = 1;
+  }
+  if (numOfChoices == allowedChoices) {
     submitButton.disabled = false;
     submitButton.innerText = "Submit";
   } else {
@@ -32,9 +36,7 @@ function updateSubmitButtonUI(id, allowedChoices = gamemode?.allowedChoices) {
     submitButton.innerText =
       allowedChoices == 1
         ? "Pick one option"
-        : `${
-            allowedChoices - Object.keys(choices).length
-          } Choices left to pick`;
+        : `${allowedChoices - numOfChoices} Choices left to pick`;
   }
 }
 
