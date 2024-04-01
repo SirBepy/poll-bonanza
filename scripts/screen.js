@@ -449,7 +449,6 @@ function highlightChoices() {
 }
 
 function onQuestionsFinished() {
-  assignActivePlayer();
   updateUnavailableAnswers();
   setNewScreen(PAGES.pairing);
 
@@ -461,12 +460,10 @@ function onQuestionsFinished() {
     initBasicPicksTableUI(orderedAnswers);
     highlightChoices();
   }
+  assignActivePlayer();
 }
 
 // TODO-GAMEMODE: Add guess_enemy_list gamemode
-
-// TODO-FIX: First player is always master
-// TODO-FIX: Show everyone the options
 
 // TODO-FUTURE: Add sounds
 // TODO-FUTURE: Add extra points for the first team to pick exactly one position
