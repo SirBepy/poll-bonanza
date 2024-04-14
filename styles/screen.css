@@ -225,7 +225,7 @@ table tr.yellow-pick:not(.remove-bg) {
   opacity: 0;
 
   z-index: 9;
-  background-color: #00000044;
+  background-color: #00000088;
 
   display: flex;
   width: 100%;
@@ -238,7 +238,7 @@ table tr.yellow-pick:not(.remove-bg) {
 .outer-modal-wrapper.show {
   top: 0;
   opacity: 1;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(100px);
 }
 
 .inner-modal-wrapper {
