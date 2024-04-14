@@ -154,7 +154,8 @@ function updateTeamUI() {
       return;
     }
     teamElem.style.display = "flex";
-    teamElem.getElementsByClassName("players")[0].innerHTML = generatePlayersHTML(teams[teamColor])
+    teamElem.getElementsByClassName("players")[0].innerHTML =
+      generatePlayersHTML(teams[teamColor]);
   });
 }
 
@@ -188,14 +189,25 @@ function updateActivePlayerUI() {
     activePlayerId
   ) {
     const nick = airConsole.getNickname(activePlayerId);
-    msg = `${nick} is picking`;
+    msg = ` <img src="${airConsole.getProfilePicture(
+      airConsole.getUID(activePlayerId),
+      48
+    )}"/> 
+    <div> 
+      <span>${activeTeamName} team:</span>
+      <span>${nick}</span>
+    </div>`;
+    [...waitingTextElems].forEach((element) => {
+      element.innerHTML = msg;
+      element.className = `waiting_text team_${activeTeamName}`;
+    });
   } else {
     const nick = airConsole.getNickname(
       airConsole.getMasterControllerDeviceId()
     );
-    msg = `Waiting for ${nick}`;
+    msg = `Waiting for party leader: ${nick}`;
+    [...waitingTextElems].forEach((element) => (element.innerHTML = msg));
   }
-  [...waitingTextElems].forEach((element) => (element.innerText = msg));
 }
 
 function fillSettingsDataUI() {

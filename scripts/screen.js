@@ -1,6 +1,7 @@
 let airConsole;
 let playersWishingToReroll = {};
 let activePlayerId;
+let activeTeamName;
 let unavailableAnswers = [];
 let choicesToPickById = [];
 let gameSettings;

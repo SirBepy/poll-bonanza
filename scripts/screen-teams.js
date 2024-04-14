@@ -63,6 +63,7 @@ function assignActivePlayer(didPlayerLeave) {
   }
 
   activePlayerId = teams[currentTeam][whoIsActive[currentTeam]];
+  activeTeamName = currentTeam
   airConsole.setCustomDeviceStateProperty("activePlayer", activePlayerId);
   updateActivePlayerUI();
 }
