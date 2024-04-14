@@ -462,10 +462,3 @@ function onQuestionsFinished() {
   }
   assignActivePlayer();
 }
-
-// TODO-GAMEMODE: Add guess_enemy_list gamemode
-
-// TODO-FUTURE: Add sounds
-// TODO-FUTURE: Add extra points for the first team to pick exactly one position
-// TODO-FUTURE: Just like for faking-it, a player should be able to chose the next gamemode
-// TODO-FUTURE: Have an option somewhere in the controller screen to always see what answers you chose
