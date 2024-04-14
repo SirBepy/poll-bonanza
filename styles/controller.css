@@ -76,33 +76,75 @@ button.toggled {
   gap: 1em;
 }
 
-button#reroll {
+.team_red {
+  background-color: var(--team-color-red);
+}
+
+.team_blue {
+  background-color: var(--team-color-blue);
+}
+
+.team_green {
+  background-color: var(--team-color-green);
+}
+
+.team_yellow {
+  background-color: var(--team-color-yellow);
+}
+
+#team-indicator {
   position: absolute;
   top: 0;
   left: 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
   height: 32px;
+  z-index: 1;
+}
+
+#team-indicator > button {
+  height: 100%;
   width: 100px;
   font-size: 0.9em;
   border-width: 1px;
-  border-left: none;
   border-top: none;
-  z-index: 1;
+}
+
+#team-indicator > button:first-child {
+  border-left: none;
   border-radius: 0 0 16px 0;
 }
 
-button#reroll::before {
-  content: "Reroll question";
+#team-indicator > button:last-child {
+  margin-left: auto;
+  border-right: none;
+  border-radius: 0 0 0 16px;
 }
 
-button#reroll.toggled {
+#reroll {
+  display: none;
+}
+
+.questions #reroll, .waitForPlayers #reroll {
+  display: block;
+}
+
+button.toggled {
   width: min-content;
 }
 
-button#reroll.toggled::before {
+#reroll::before {
+  content: "Reroll question";
+}
+
+#reroll.toggled::before {
   content: "Undo";
 }
 
-button#reroll.toggled::after {
+#reroll.toggled::after {
   content: "Reroll requested";
   position: absolute;
   left: 120%;
@@ -112,33 +154,6 @@ button#reroll.toggled::after {
 button.stick-to-bottom {
   position: absolute;
   bottom: 16px;
-}
-
-.team_red::before,
-.team_blue::before,
-.team_green::before,
-.team_yellow::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 32px;
-  z-index: 1;
-  background-color: var(--team-color-red);
-}
-
-.team_blue::before {
-  background-color: var(--team-color-blue);
-}
-
-.team_green::before {
-  background-color: var(--team-color-green);
-}
-
-.team_yellow::before {
-  background-color: var(--team-color-yellow);
 }
 
 #pairing.isActivePlayer .waiting_text,
@@ -242,4 +257,27 @@ span.hint {
   100% {
     transform: translateY(100vh);
   }
+}
+
+#my-team {
+  display: none;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 1;
+
+  width: 100%;
+  height: calc(100% - 32px);
+  background-color: var(--color-bg);
+  flex-direction: column;
+  gap: 1em;
+  padding: 3em;
+}
+
+.team-player img {
+  width: 48px;
+}
+
+.team-player {
+  font-size: 1.5em;
 }

@@ -40,6 +40,9 @@ function onTeamUpdate(teams) {
   updateTeamClass(teams);
   checkIfTeamsAreSafe(teams);
   disableUnusedTeams(teams);
+  document.getElementById("my-team").innerHTML = generatePlayersHTML(
+    teams[currentTeam], 48
+  );
 }
 
 function onNewScreen(screen) {
@@ -208,4 +211,12 @@ function switchTeams(teamName) {
 
 function goBackHome() {
   sendScreenEvent({ goBackHome: true });
+}
+
+function toggleViewTeam(btn) {
+  const showTeam = !btn.classList.contains("toggled");
+  const myTeam = document.getElementById("my-team");
+
+  btn.className = showTeam ? "toggled" : "";
+  myTeam.style.display = showTeam ? "flex" : "none";
 }

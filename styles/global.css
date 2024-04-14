@@ -25,11 +25,15 @@ html {
   overflow-x: hidden;
 }
 
-p, button, table {
+p,
+button,
+table {
   font-weight: 100;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 400;
 }
 
@@ -119,7 +123,7 @@ table tr:first-child th:last-child {
 table tr:last-child td:first-child {
   border-end-start-radius: 8px;
 }
-table tr:last-child td:last-child{
+table tr:last-child td:last-child {
   border-end-end-radius: 8px;
 }
 
@@ -181,4 +185,16 @@ table .highlight {
 
 button.hide-pair-button {
   display: none;
+}
+
+.team-player img {
+  width: 2em;
+  border-radius: 50%;
+}
+
+.team-player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
 }

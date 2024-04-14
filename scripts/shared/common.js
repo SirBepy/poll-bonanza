@@ -18,10 +18,13 @@ const displayScreen = (screen) => {
   sections.forEach((element) => (element.style.display = "none"));
   correctSection.style.display = "flex";
 
-  const scoreboard = document.getElementById("scoreboard");
-  if (scoreboard) {
-    scoreboard.className = screen == PAGES.lobby ? "" : "show-scoreboard";
-  }
+  const body = document.getElementsByTagName("body")?.[0];
+  let newClassName = body.className
+    .split(/\s+/)
+    .filter((word) => !Object.values(PAGES).includes(word))
+    .join(" ");
+  newClassName += ` ${screen}`;
+  body.className = newClassName;
 };
 
 /**
@@ -127,5 +130,20 @@ function addBottomButtonWithCard(parentElem, id, onClick) {
     id: bottomBtnId,
     onClick,
   });
-  updateSubmitButtonUI(bottomBtnId)
+  updateSubmitButtonUI(bottomBtnId);
+}
+
+function generatePlayersHTML(players, size = 32) {
+  return players
+    .map(
+      (playerId) =>
+        `<div class="team-player">
+        <img src="${airConsole.getProfilePicture(
+          airConsole.getUID(playerId),
+          size
+        )}"/>
+        <span>${airConsole.getNickname(playerId)}</span>
+      </div>`
+    )
+    .join("");
 }

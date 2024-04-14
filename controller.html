@@ -25,6 +25,11 @@
     <script src="scripts/controller.js"></script>
   </head>
   <body onload="init()">
+    <div id="team-indicator">
+      <button id="reroll" onclick="toggleRerollQuestion()"></button>
+      <button onclick="toggleViewTeam(this)">Show my Team</button>
+    </div>
+    <div id="my-team"></div>
     <section id="lobby">
       <h1>Split Opinions</h1>
       <h2 class="hide-on-master">Waiting for leader</h2>
@@ -49,7 +54,6 @@
       </div>
     </section>
     <section id="questions">
-      <button id="reroll" onclick="toggleRerollQuestion()"></button>
     </section>
     <section id="waitForPlayers">
       <h2>Wait for other players to finish</h2>

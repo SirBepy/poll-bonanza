@@ -74,7 +74,6 @@ table tr.yellow-pick:not(.remove-bg) {
   position: absolute;
   bottom: 0;
   left: 0;
-  min-height: 100px;
   display: flex;
 }
 
@@ -97,18 +96,6 @@ table tr.yellow-pick:not(.remove-bg) {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-}
-
-.team-player img {
-  width: 2em;
-  border-radius: 50%;
-}
-
-.team-player {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 4px;
 }
 
 #settings-table {
@@ -304,4 +291,8 @@ table tr.yellow-pick:not(.remove-bg) {
   padding-bottom: 0.4em;
   padding-bottom: 0.4em;
   transition-delay: 3.5s;
+}
+
+.lobby .score {
+  display: none;
 }

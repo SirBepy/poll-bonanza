@@ -56,13 +56,13 @@ function hideAnswersUI(unavailableAnswers) {
 }
 
 function updateTeamClass(teams) {
-  const bodyElem = document.getElementsByTagName("body")[0];
+  const teamIndicator = document.getElementById("team-indicator");
   SETTINGS.teams.options.forEach(({ value: teamName }) => {
     const team = teams[teamName] ?? [];
     if (team.includes(airConsole.device_id)) {
-      bodyElem.classList.add(`team_${teamName}`);
+      teamIndicator.classList.add(`team_${teamName}`);
     } else {
-      bodyElem.classList.remove(`team_${teamName}`);
+      teamIndicator.classList.remove(`team_${teamName}`);
     }
   });
 }
