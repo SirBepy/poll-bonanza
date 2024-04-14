@@ -56,6 +56,25 @@ table tr.yellow-pick:not(.remove-bg) {
   opacity: 0;
 }
 
+.waiting_text {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  font-size: 1.5em;
+  padding: 1em 1.2em 1em 1em;
+  border-radius: 1em;
+}
+
+.waiting_text div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.waiting_text span:first-child {
+  text-transform: capitalize;
+}
+
 #pairing.show-end .on_end,
 #pairing.show-end .col_answer {
   opacity: 1;
@@ -198,7 +217,6 @@ table tr.yellow-pick:not(.remove-bg) {
 
 .player_answers img {
   width: 1.5em;
-  border-radius: 50%;
 }
 
 .player_answers span {
@@ -266,7 +284,7 @@ table tr.yellow-pick:not(.remove-bg) {
 }
 
 .outer-modal-wrapper.show h2,
-.outer-modal-wrapper.show h1, 
+.outer-modal-wrapper.show h1,
 .outer-modal-wrapper.show p {
   opacity: 1;
 }

@@ -187,6 +187,10 @@ button.hide-pair-button {
   display: none;
 }
 
+img {
+  border-radius: 50%;
+}
+
 .team-player img {
   width: 2em;
   border-radius: 50%;
