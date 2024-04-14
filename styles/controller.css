@@ -132,10 +132,6 @@ button.toggled {
   display: block;
 }
 
-button.toggled {
-  width: min-content;
-}
-
 #reroll::before {
   content: "Reroll question";
 }
@@ -264,7 +260,7 @@ span.hint {
   position: absolute;
   top: 32px;
   left: 0;
-  z-index: 1;
+  z-index: 11;
 
   width: 100%;
   height: calc(100% - 32px);
