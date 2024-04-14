@@ -76,22 +76,6 @@ button.toggled {
   gap: 1em;
 }
 
-.team_red {
-  background-color: var(--team-color-red);
-}
-
-.team_blue {
-  background-color: var(--team-color-blue);
-}
-
-.team_green {
-  background-color: var(--team-color-green);
-}
-
-.team_yellow {
-  background-color: var(--team-color-yellow);
-}
-
 #team-indicator {
   position: absolute;
   top: 0;
