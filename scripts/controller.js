@@ -9,7 +9,7 @@ function onCustomDeviceStateChange(sender_id, data) {
   if (data.activePlayer) updateIsActivePlayerClass(data.activePlayer);
   if (data.teams) onTeamUpdate(data.teams);
   if (data.teamPointsSorted) updateYouWinLoseTextUI(data.teamPointsSorted);
-  if (data.screen) onNewScreen(data.screen);
+  if (data.screen) onNewScreen(data);
   if (data.unavailableAnswers) {
     updateSubmitButtonUI("pairing-normal-submit");
     hideAnswersUI(data.unavailableAnswers);
@@ -41,24 +41,32 @@ function onTeamUpdate(teams) {
   checkIfTeamsAreSafe(teams);
   disableUnusedTeams(teams);
   document.getElementById("my-team").innerHTML = generatePlayersHTML(
-    teams[currentTeam], 48
+    teams[currentTeam],
+    48
   );
 }
 
-function onNewScreen(screen) {
-  const newScreenIsSettings = [
+function onNewScreen(data) {
+  const { screen, gamemodeKey } = data;
+  const currScreenIsSettings = [
     PAGES.allSettings,
     PAGES.settingsDetail,
   ].includes(currentScreen);
 
-  const isWaitingForPlayers = currentScreen == PAGES.waitForPlayers;
-  const isBringingBackToQuestions = isWaitingForPlayers
+  const currScreenIsWait4Players = currentScreen == PAGES.waitForPlayers;
+  const isBringingBackToQuestions = currScreenIsWait4Players
     ? screen == PAGES.questions
     : false;
 
-  if ((!newScreenIsSettings || !getIsMaster()) && !isBringingBackToQuestions) {
-    displayScreen(screen);
-  }
+  const isSameQuestionAndGamemode =
+    gamemode.key == gamemodeKey &&
+    currentQuestion?.question == data.currentQuestion?.question;
+
+  // If the user is the master and he is on settings, dont redirect
+  // If the user is being brought back to questions and the gamemode/question didnt change, dont do it
+  if (currScreenIsSettings && getIsMaster()) return;
+  if (isBringingBackToQuestions && isSameQuestionAndGamemode) return;
+  displayScreen(screen);
 }
 
 function checkIfTeamsAreSafe(teams) {
