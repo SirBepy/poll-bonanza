@@ -1,6 +1,6 @@
 let isRerolling = false;
 
-let teamName;
+let currentTeam;
 let airConsole;
 let isPaused;
 
@@ -34,9 +34,13 @@ function onCustomDeviceStateChange(sender_id, data) {
 }
 
 function onTeamUpdate(teams) {
+  if (!teams) return;
+
   SETTINGS.teams.options.forEach(({ value: teamName }) => {
     if (teams[teamName]?.includes(airConsole.device_id)) currentTeam = teamName;
   });
+
+  if (!currentTeam) return;
   updateTeamClass(teams);
   checkIfTeamsAreSafe(teams);
   disableUnusedTeams(teams);
