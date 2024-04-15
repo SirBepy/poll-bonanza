@@ -6,7 +6,8 @@ let isPaused;
 
 // Init functionality
 function onCustomDeviceStateChange(sender_id, data) {
-  if (data.activePlayer) updateIsActivePlayerClass(data.activePlayer);
+  if (data.activePlayer)
+    updateIsActivePlayerClass(data.activePlayer, data.teams[currentTeam]);
   if (data.teams) onTeamUpdate(data.teams);
   if (data.teamPointsSorted) updateYouWinLoseTextUI(data.teamPointsSorted);
   if (data.screen) onNewScreen(data);
@@ -231,4 +232,12 @@ function toggleViewTeam(btn) {
 
   btn.className = showTeam ? "toggled" : "";
   myTeam.style.display = showTeam ? "flex" : "none";
+}
+
+function vibrate(numberOfTimes) {
+  airConsole.vibrate(100);
+
+  setTimeout(() => {
+    if (numberOfTimes > 1) vibrate(numberOfTimes - 1);
+  }, 500);
 }
