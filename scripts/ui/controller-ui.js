@@ -179,12 +179,14 @@ function updateYouWinLoseTextUI(teamPointsSorted) {
   const playersTeamPoints = teamPointsSorted.find(
     (team) => team.teamKey === currentTeam
   );
-  const didWin = playersTeamPoints.position == 1;
+  const didWin = playersTeamPoints?.position == 1;
   const textElem = document
     .getElementById("endOfGame")
     .getElementsByTagName("h1")?.[0];
 
   if (!textElem) return console.error("Couldnt find h1 elem");
 
-  textElem.innerText = `You ${didWin ? "win" : "lose"}!`;
+  textElem.innerText = `You ${
+    !playersTeamPoints ? "played well!" : didWin ? "win" : "lose"
+  }!`;
 }
