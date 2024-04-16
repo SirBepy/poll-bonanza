@@ -212,27 +212,26 @@ function updateActivePlayerUI() {
 
 function fillSettingsDataUI() {
   const tableElement = document.getElementById("settings-table");
-  const { teams, numOfRounds, categories, gamemodes } = SETTINGS;
   tableElement.innerHTML = "";
-  addRowToTable(tableElement, [teams.name, gameSettings.teams?.length]);
-  addRowToTable(tableElement, [
-    numOfRounds.name,
-    numOfRounds.options.find(
-      ({ value }) => value == gameSettings.numOfRounds?.[0]
-    )?.name,
-  ]);
-
-  const categoriesNum = gameSettings.categories?.length;
-  addRowToTable(tableElement, [
-    categories.name,
-    categoriesNum === categories.options.length ? "All" : categoriesNum,
-  ]);
-
-  const gamemodesNum = gameSettings.gamemodes?.length;
-  addRowToTable(tableElement, [
-    gamemodes.name,
-    gamemodesNum === gamemodes.options.length ? "All" : gamemodesNum,
-  ]);
+  Object.entries(SETTINGS).forEach(([key, setting]) => {
+    const { name, options, onlyOneIsActive, canSayAll } = setting;
+    if (onlyOneIsActive) {
+      addRowToTable(tableElement, [
+        name,
+        options.find(({ value }) => value == gameSettings?.[key]?.[0])?.name,
+      ]);
+      return;
+    }
+    const length = gameSettings[key]?.length;
+    if (canSayAll) {
+      addRowToTable(tableElement, [
+        name,
+        length === options.length ? "All" : length,
+      ]);
+    } else {
+      addRowToTable(tableElement, [name, length]);
+    }
+  });
 }
 
 function updateRoundUI() {

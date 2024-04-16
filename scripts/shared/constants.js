@@ -66,16 +66,18 @@ const POSITION_POINTS = {
 const NUM_OF_CHOICES_PER_QUESTION = Object.keys(POSITION_POINTS).length;
 
 const SETTINGS = {
-  teams: {
-    name: "Teams",
-    hintText: "It's most fun to have atleast 4 players per team",
-    minNumOfOptionsChosen: 2,
-    options: [
-      { name: "Red", value: "red" },
-      { name: "Blue", value: "blue" },
-      { name: "Green", value: "green" },
-      { name: "Cyan", value: "yellow" },
-    ],
+  categories: {
+    name: "Categories",
+    options: [],
+    canSayAll: true,
+  },
+  gamemodes: {
+    name: "Gamemodes",
+    options: Object.entries(GAMEMODES).map(([gamemodeKey, gamemode]) => ({
+      name: gamemode.name,
+      value: gamemodeKey,
+    })),
+    canSayAll: true,
   },
   numOfRounds: {
     name: "Number of rounds",
@@ -89,24 +91,31 @@ const SETTINGS = {
     ],
     onlyOneIsActive: true,
   },
-  categories: {
-    name: "Categories",
-    options: [],
-  },
-  gamemodes: {
-    name: "Gamemodes",
-    options: Object.entries(GAMEMODES).map(([gamemodeKey, gamemode]) => ({
-      name: gamemode.name,
-      value: gamemodeKey,
-    })),
+  teams: {
+    name: "Teams",
+    hintText: "It's most fun to have atleast 4 players per team",
+    minNumOfOptionsChosen: 2,
+    options: [
+      { name: "Red", value: "red" },
+      { name: "Blue", value: "blue" },
+      { name: "Green", value: "green" },
+      { name: "Cyan", value: "yellow" },
+    ],
   },
 };
 
-const FILES_TO_LOOK_FOR = ["Misc", "Movies and Shows", "Music", "Everyday Life", "Ideal World", "Powers and Magic"];
+const FILES_TO_LOOK_FOR = [
+  "Misc",
+  "Movies and Shows",
+  "Music",
+  "Everyday Life",
+  "Ideal World",
+  "Powers and Magic",
+];
 
 const DEFAULT_SETTINGS = {
   teams: ["red", "blue"],
-  numOfRounds: ["3"],
+  numOfRounds: [SETTINGS.numOfRounds.options[1]],
   categories: FILES_TO_LOOK_FOR,
   gamemodes: Object.keys(GAMEMODES),
 };
