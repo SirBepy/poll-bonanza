@@ -235,10 +235,8 @@ function fillSettingsDataUI() {
 }
 
 function updateRoundUI() {
-  [...document.getElementsByClassName("round_indicator")].forEach(
-    (elem) =>
-      (elem.innerText = `Round: ${currentRound} / ${gameSettings.numOfRounds?.[0]}`)
-  );
+  const roundElem = document.getElementById("round_indicator");
+  roundElem.innerText = `Round: ${currentRound} / ${gameSettings.numOfRounds?.[0]}`;
 }
 
 function fillEndOfGameUI(teamPointsSorted) {
