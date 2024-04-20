@@ -380,6 +380,8 @@ function getRandomQuestion() {
   const selectedQuestion =
     questions[Math.floor(Math.random() * questions.length)];
   addPrevQuestion(`${selectedQuestion.category}${selectedQuestion.question}`);
+  SoundService.play.newquestion()
+
   return selectedQuestion;
 }
 
